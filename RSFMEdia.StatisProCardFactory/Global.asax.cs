@@ -16,6 +16,16 @@ namespace RSFMEdia.StatisProCardFactory
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Fires when the application is started
+            // the license key for Aspose.Words for .NET can be handled in multiple ways:
+            // 1) the license key (.lic file) can be placed into the bin folder with the Aspose.Words.dll file 
+            // 2) the license key (.lic file) can be placed on a file share and given a complete path in the SetLicense method
+            // 3) the license key (.lic file) can be added to the project and be set as an embedded resource in its properties window
+            Aspose.Words.License wordsLicense = new Aspose.Words.License();
+            wordsLicense.SetLicense("Aspose.Total.lic");
+            Aspose.Pdf.License pdfLicense = new Aspose.Pdf.License();
+            pdfLicense.SetLicense("Aspose.Total.lic");
         }
     }
 }
