@@ -215,6 +215,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business\CardHelper.cs" />
     <Compile Include="Business\ConfigurationProvider.cs" />
+    <Compile Include="Business\ErrorGenerator.cs" />
     <Compile Include="Business\FileHelper.cs" />
     <Compile Include="Business\FormulaHelper.cs" />
     <Compile Include="Business\SPCFConstants.cs" />

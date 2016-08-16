@@ -23,25 +23,23 @@ namespace RSFMEdia.StatisProCardFactory
                 fileHelper.CreateDirectory(SPCFConstants.SPCF_OUTPUT_DIRECTORY);
                 fileHelper.CreateDirectory(SPCFConstants.SPCF_CSV_DIRECTORY);
 
-
-
                 // load the page
                 LoadPage();
             }
         }
 
+        #region Private Methods
         private void LoadPage()
         {
-            // load teams
-            var teamData = new MLBData();
-            ddlTeam.DataSource = teamData.Teams;
-            ddlTeam.DataTextField = "Name";
-            ddlTeam.DataValueField = "Abbreviation";
-            ddlTeam.DataBind();
+            LoadTeams();
+            LoadSeasons();
+        }
 
+        private void LoadSeasons()
+        {
             // load seasons
-            var seasons = Convert.ToInt32(ConfigurationProvider.LoadConfigurationValue("numberOfHistoricSeasons").ToString());
             ddlYear.Items.Clear();
+            var seasons = Convert.ToInt32(ConfigurationProvider.LoadConfigurationValue("numberOfHistoricSeasons").ToString());
             var currentYear = DateTime.Today.Year;
             for (int i = 0; i <= seasons; i++)
             {
@@ -49,9 +47,48 @@ namespace RSFMEdia.StatisProCardFactory
             }
         }
 
+        private void LoadTeams()
+        {
+            // load teams
+            ddlTeam.Items.Clear();
+            var teamData = new MLBData();
+            ddlTeam.DataSource = teamData.Teams;
+            ddlTeam.DataTextField = "Name";
+            ddlTeam.DataValueField = "Abbreviation";
+            ddlTeam.DataBind();
+        }
+
         private void ClearMessages()
         {
             
         }
+
+        private void ResetInputs()
+        {
+            LoadSeasons();
+            LoadTeams();
+            tbLosses.Text = string.Empty;
+            tbWins.Text = string.Empty;
+            tbManager.Text = string.Empty;
+        }
+        #endregion
+
+        #region Control Events
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+            // verify that files were uploaded
+            if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
+            {
+                // display error to user
+                litMessage.Text = ErrorGenerator.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
+
+            }
+            else
+            {
+                // TODO: make sure the file is a .csv
+                // process uploads
+            }
+        }
+        #endregion
     }
 }

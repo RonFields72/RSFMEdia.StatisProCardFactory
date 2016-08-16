@@ -6,7 +6,11 @@
         <h2>Statis-Pro Card Factory</h2>
         <p class="lead">Complete the data inputs below and click create to generate the player/pitcher cards.</p>
     </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <asp:Literal ID="litMessage" runat="server" Text=""></asp:Literal>
+        </div>
+    </div>
     <div class="row row-buffer">
         <div class="col-md-1">
             Year:
@@ -81,7 +85,7 @@
         </div>
     </div>
     <br />
-    <asp:Button ID="btnUpload" runat="server" Text="Upload Data" CssClass="btn btn-default" />
+    <asp:Button ID="btnUpload" runat="server" Text="Upload Data" CssClass="btn btn-default" OnClick="btnUpload_Click" />
 
     <div class="row row-buffer">
         <div class="col-md-6">
