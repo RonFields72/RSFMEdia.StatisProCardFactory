@@ -29,3 +29,14 @@ textarea {
         padding: 0;
     }
 }
+h3 {
+    font-family: Calibri;
+}
+.row-buffer {
+    margin-top: 2px;
+}
+.red-highlight {
+    color: firebrick;
+    font-style: italic;
+    font-size: .80em;
+}
