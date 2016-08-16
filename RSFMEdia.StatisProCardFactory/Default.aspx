@@ -12,33 +12,7 @@
             Year:
         </div>
         <div class="col-md-4">
-            <asp:DropDownList ID="ddlYear" runat="server">
-                <asp:ListItem Text="2016" Value="2016"></asp:ListItem>
-                <asp:ListItem Text="2015" Value="2015"></asp:ListItem>
-                <asp:ListItem Text="2014" Value="2014"></asp:ListItem>
-                <asp:ListItem Text="2013" Value="2013"></asp:ListItem>
-                <asp:ListItem Text="2012" Value="2012"></asp:ListItem>
-                <asp:ListItem Text="2011" Value="2011"></asp:ListItem>
-                <asp:ListItem Text="2010" Value="2010"></asp:ListItem>
-                <asp:ListItem Text="2009" Value="2009"></asp:ListItem>
-                <asp:ListItem Text="2008" Value="2008"></asp:ListItem>
-                <asp:ListItem Text="2007" Value="2007"></asp:ListItem>
-                <asp:ListItem Text="2006" Value="2006"></asp:ListItem>
-                <asp:ListItem Text="2005" Value="2005"></asp:ListItem>
-                <asp:ListItem Text="2004" Value="2004"></asp:ListItem>
-                <asp:ListItem Text="2003" Value="2003"></asp:ListItem>
-                <asp:ListItem Text="2002" Value="2002"></asp:ListItem>
-                <asp:ListItem Text="2001" Value="2001"></asp:ListItem>
-                <asp:ListItem Text="2000" Value="2000"></asp:ListItem>
-                <asp:ListItem Text="1999" Value="1999"></asp:ListItem>
-                <asp:ListItem Text="1998" Value="1998"></asp:ListItem>
-                <asp:ListItem Text="1997" Value="1997"></asp:ListItem>
-                <asp:ListItem Text="1996" Value="1996"></asp:ListItem>
-                <asp:ListItem Text="1995" Value="1995"></asp:ListItem>
-                <asp:ListItem Text="1994" Value="1994"></asp:ListItem>
-                <asp:ListItem Text="1993" Value="1993"></asp:ListItem>
-                <asp:ListItem Text="1992" Value="1992"></asp:ListItem>
-                <asp:ListItem Text="1991" Value="1991"></asp:ListItem>
+            <asp:DropDownList ID="ddlYear" runat="server" Width="100px">
             </asp:DropDownList>
         </div>
     </div>
@@ -47,40 +21,67 @@
             League:
         </div>
         <div class="col-md-4">
-            <asp:DropDownList ID="ddlLeague" runat="server">
+            <asp:DropDownList ID="ddlLeague" runat="server" Width="100px">
                 <asp:ListItem Text="AL" Value="AL"></asp:ListItem>
                 <asp:ListItem Text="NL" Value="NL"></asp:ListItem>
             </asp:DropDownList>
         </div>
     </div>
-    <div class="row row-buffer">
-        <div class="col-md-1">
-            Team:
-        </div>
-        <div class="col-md-6">
-            <asp:DropDownList ID="ddlTeam" runat="server">
-                <asp:ListItem Text="Arizona Diamondbacks" Value="Arizona Diamondbacks"></asp:ListItem>
-                <asp:ListItem Text="Atlanta Braves" Value="Atlanta Braves"></asp:ListItem>
-                <asp:ListItem Text="Baltimore Orioles" Value="Baltimore Orioles"></asp:ListItem>
-                <asp:ListItem Text="Boston Red Sox" Value="Boston Red Sox"></asp:ListItem>
-            </asp:DropDownList>    
-        </div>
-    </div>
-    <div class="row row-buffer">
-        <div class="col-md-6">
-            Wins: 
-            <asp:TextBox ID="tbWins" runat="server" Text="" Width="35px"></asp:TextBox>
-            Losses:
-            <asp:TextBox ID="tbLosses" runat="server" Text="" Width="35px"></asp:TextBox>
-        </div>
-        
-    </div>
-    <hr />
-    Upload Player Data File <span class="red-highlight">(.csv format)</span>:
-    <asp:FileUpload ID="fuPlayers" runat="server" AllowMultiple="false" Width="50%" />
     <br />
-    Upload Pitcher Data File <span class="red-highlight">(.csv format)</span>:
-    <asp:FileUpload ID="fuPitchers" runat="server" AllowMultiple="false" Width="50%" />
+    <div class="panel panel-default">
+        <div class="panel-heading">Team Information</div>
+        <div class="panel-body">
+            <div class="row row-buffer">
+                <div class="col-md-1">
+                    Team:
+                </div>
+                <div class="col-md-6">
+                    <asp:DropDownList ID="ddlTeam" runat="server" Width="250px">
+                    </asp:DropDownList>
+                </div>
+            </div>
+            <div class="row row-buffer">
+                <div class="col-md-1">
+                    Manager:
+                </div>
+                <div class="col-md-6">
+                    <asp:TextBox ID="tbManager" runat="server" Text="" Width="250px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvManager" runat="server" ControlToValidate="tbManager" ErrorMessage="* required" Font-Italic="true"></asp:RequiredFieldValidator>
+                </div>
+            </div>
+            <div class="row row-buffer">
+                <div class="col-md-1">Wins:</div>
+                <div class="col-md-6">
+                    <asp:TextBox ID="tbWins" runat="server" Text="" Width="50px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvWins" runat="server" ControlToValidate="tbWins" ErrorMessage="* required" Font-Italic="true"></asp:RequiredFieldValidator>
+                    <asp:RangeValidator ID="rvWins" runat="server" ControlToValidate="tbWins" MinimumValue="0" MaximumValue="162" Type="Integer" ErrorMessage="* valid values 0 to 162" Font-Italic="true"></asp:RangeValidator>
+                </div>
+            </div>
+            <div class="row row-buffer">
+                <div class="col-md-1">Losses:</div>
+                <div class="col-md-6">
+                    <asp:TextBox ID="tbLosses" runat="server" Text="" Width="50px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvLosses" runat="server" ControlToValidate="tbLosses" ErrorMessage="* required" Font-Italic="true"></asp:RequiredFieldValidator>
+                    <asp:RangeValidator ID="rvLosses" runat="server" ControlToValidate="tbLosses" MinimumValue="0" MaximumValue="162" Type="Integer" ErrorMessage="* valid values 0 to 162" Font-Italic="true"></asp:RangeValidator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">File Uploads</div>
+        <div class="panel-body">
+            Upload Batting Data File <span class="red-highlight">(.csv format)</span>:
+            <asp:FileUpload ID="fuBatting" runat="server" AllowMultiple="false" Width="50%" />
+            <br />
+            Upload Pitching Data File <span class="red-highlight">(.csv format)</span>:
+            <asp:FileUpload ID="fuPitching" runat="server" AllowMultiple="false" Width="50%" />
+            <br />
+            Upload Fielding Data File <span class="red-highlight">(.csv format)</span>:
+             <asp:FileUpload ID="fuFielding" runat="server" AllowMultiple="false" Width="50%" />
+        </div>
+    </div>
+    <br />
+    <asp:Button ID="btnUpload" runat="server" Text="Upload Data" CssClass="btn btn-default" />
 
     <div class="row row-buffer">
         <div class="col-md-6">

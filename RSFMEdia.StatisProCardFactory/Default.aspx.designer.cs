@@ -40,6 +40,24 @@ namespace RSFMEdia.StatisProCardFactory {
         protected global::System.Web.UI.WebControls.DropDownList ddlTeam;
         
         /// <summary>
+        /// tbManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbManager;
+        
+        /// <summary>
+        /// rfvManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvManager;
+        
+        /// <summary>
         /// tbWins control.
         /// </summary>
         /// <remarks>
@@ -47,6 +65,24 @@ namespace RSFMEdia.StatisProCardFactory {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbWins;
+        
+        /// <summary>
+        /// rfvWins control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvWins;
+        
+        /// <summary>
+        /// rvWins control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvWins;
         
         /// <summary>
         /// tbLosses control.
@@ -58,21 +94,57 @@ namespace RSFMEdia.StatisProCardFactory {
         protected global::System.Web.UI.WebControls.TextBox tbLosses;
         
         /// <summary>
-        /// fuPlayers control.
+        /// rfvLosses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuPlayers;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLosses;
         
         /// <summary>
-        /// fuPitchers control.
+        /// rvLosses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuPitchers;
+        protected global::System.Web.UI.WebControls.RangeValidator rvLosses;
+        
+        /// <summary>
+        /// fuBatting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuBatting;
+        
+        /// <summary>
+        /// fuPitching control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuPitching;
+        
+        /// <summary>
+        /// fuFielding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuFielding;
+        
+        /// <summary>
+        /// btnUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpload;
     }
 }

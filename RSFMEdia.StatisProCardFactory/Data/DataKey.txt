@@ -1,0 +1,7 @@
+﻿Batting/Fielding/Pitching Data come from baseball-reference.com
+
+To determine how the batter hits check the last character of the player name:
+---------------------------------------------------------------------------------------------------
+* -- left
+# -- switch
+otherwise they are right handed batters
