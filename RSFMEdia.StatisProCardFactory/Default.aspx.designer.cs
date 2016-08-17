@@ -130,6 +130,15 @@ namespace RSFMEdia.StatisProCardFactory {
         protected global::System.Web.UI.WebControls.FileUpload fuBatting;
         
         /// <summary>
+        /// revBatting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revBatting;
+        
+        /// <summary>
         /// fuPitching control.
         /// </summary>
         /// <remarks>
@@ -139,6 +148,15 @@ namespace RSFMEdia.StatisProCardFactory {
         protected global::System.Web.UI.WebControls.FileUpload fuPitching;
         
         /// <summary>
+        /// revPitching control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revPitching;
+        
+        /// <summary>
         /// fuFielding control.
         /// </summary>
         /// <remarks>
@@ -146,6 +164,15 @@ namespace RSFMEdia.StatisProCardFactory {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuFielding;
+        
+        /// <summary>
+        /// revFielding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revFielding;
         
         /// <summary>
         /// btnUpload control.

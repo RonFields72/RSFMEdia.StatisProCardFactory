@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FileHelpers;
 
 namespace RSFMEdia.StatisProCardFactory.Models
 {
     /// <summary>
-    /// Represents the player data obtained from Baseball-Reference.com
+    /// Represents the batting data obtained from Baseball-Reference.com
     /// The data can be exported in .csv format and then uploaded into StatisProCardFactory.
+    /// This class is annotated with attributes from the FileHelpers library.
     /// </summary>
-    public class PlayerData
+    [DelimitedRecord(",")]
+    public class BattingData
     {
         public string Rank { get; set; }
-        public string Name { get; set; }
         public string Position { get; set; }
+        public string Name { get; set; }
         public int Age { get; set; }
         public int Games { get; set; }
         public int PlateAppearances { get; set; }
@@ -38,6 +41,5 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int SacrificeHits { get; set; }
         public int SacrificeFlys { get; set; }
         public int IBB { get; set; }
-        public string Remarks { get; set; }
     }
 }

@@ -63,6 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Aspose.Words.dll</HintPath>
     </Reference>
+    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -142,7 +146,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\rsf-application-UI.css" />
-    <Content Include="Data\DataKey.txt" />
+    <Content Include="Content\rsf-bootstrap-custom.css" />
+    <Content Include="Data Examples\DataKey.txt" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -154,8 +159,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <EmbeddedResource Include="Aspose.Total.lic" />
     <Content Include="images\statispro.jpg" />
+    <Content Include="PBAdmin.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Data Examples\1984-padres-NL-batting.csv" />
+    <Content Include="Data Examples\1984-cardinals-NL-pitching.csv" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -238,12 +246,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\MLBTeam.cs" />
-    <Compile Include="Models\PitcherData.cs" />
+    <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />
     <Compile Include="Models\PitcherFielding.cs" />
-    <Compile Include="Models\PlayerData.cs" />
+    <Compile Include="Models\BattingData.cs" />
     <Compile Include="Models\PlayerCard.cs" />
-    <Compile Include="Models\PlayerFielding.cs" />
+    <Compile Include="Models\FieldingData.cs" />
+    <Compile Include="PBAdmin.aspx.cs">
+      <DependentUpon>PBAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PBAdmin.aspx.designer.cs">
+      <DependentUpon>PBAdmin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

@@ -70,6 +70,9 @@ namespace RSFMEdia.StatisProCardFactory
             tbLosses.Text = string.Empty;
             tbWins.Text = string.Empty;
             tbManager.Text = string.Empty;
+            fuBatting.Dispose();
+            fuPitching.Dispose();
+            fuFielding.Dispose();
         }
         #endregion
 
@@ -80,8 +83,7 @@ namespace RSFMEdia.StatisProCardFactory
             if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
             {
                 // display error to user
-                litMessage.Text = ErrorGenerator.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
-
+                litMessage.Text = BootstrapGenerator.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
             }
             else
             {

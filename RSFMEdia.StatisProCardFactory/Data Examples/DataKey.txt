@@ -1,0 +1,24 @@
+﻿Batting/Fielding/Pitching Data come from baseball-reference.com
+
+Batting Data CSV Format:
+---------------------------------------------------------------------------------------------------
+Rk,Pos,Name,Age,G,PA,AB,R,H,2B,3B,HR,RBI,SB,CS,BB,SO,BA,OBP,SLG,OPS,TB,GDP,HBP,SH,SF,IBB
+
+Pitching Data CSV Format:
+---------------------------------------------------------------------------------------------------
+
+Fielding Data CSV Format:
+---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+To determine how the batter hits check the last character of the Name column in the BattingData class:
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+* -- left
+# -- switch
+otherwise they are right handed batters

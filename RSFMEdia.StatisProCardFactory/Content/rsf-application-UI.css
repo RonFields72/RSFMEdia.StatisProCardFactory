@@ -7,17 +7,16 @@ body {
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 500px;
 }
-
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -29,14 +28,19 @@ textarea {
         padding: 0;
     }
 }
+
 h3 {
     font-family: Calibri;
 }
-.row-buffer {
+.spcf-row-buffer {
     margin-top: 2px;
 }
-.red-highlight {
-    color: firebrick;
+
+.spcf-error-text {
+    color: #E51C23;
+}
+.spcf-info-text {
+    color: #9C27B0;
     font-style: italic;
-    font-size: .80em;
+    font-size: .90em;
 }
