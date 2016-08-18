@@ -105,7 +105,7 @@ namespace RSFMEdia.StatisProCardFactory
                         var csvEngine = new FileHelperEngine<BattingData>();
                         var batters = csvEngine.ReadFileAsList(battingFullPath);
                         var batter = batters.FirstOrDefault(b => b.Rank == "6");
-                        lblTestDisplay1.Text = batter.Name;
+                        lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
                     }
 
                     // process pitching upload
@@ -116,7 +116,13 @@ namespace RSFMEdia.StatisProCardFactory
                         var pitchingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + pitchingFilename;
 
                         // rename file and save it to the server
-                        fuBatting.SaveAs(pitchingFullPath);
+                        fuPitching.SaveAs(pitchingFullPath);
+
+                        // read the pitching data
+                        var csvEngine = new FileHelperEngine<PitchingData>();
+                        var pitchers = csvEngine.ReadFileAsList(pitchingFullPath);
+                        var pitcher = pitchers.FirstOrDefault(b => b.Rank == "11");
+                        lblTestDisplay2.Text = string.Format("Test random pitcher: {0}", pitcher.Name);
                     }
 
                     // process fielding upload
@@ -127,7 +133,13 @@ namespace RSFMEdia.StatisProCardFactory
                         var fieldingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + fieldingFilename;
 
                         // rename file and save it to the server
-                        fuBatting.SaveAs(fieldingFullPath);
+                        fuFielding.SaveAs(fieldingFullPath);
+
+                        // read the fielding data
+                        var csvEngine = new FileHelperEngine<FieldingData>();
+                        var fielders = csvEngine.ReadFileAsList(fieldingFullPath);
+                        var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
+                        lblTestDisplay3.Text = string.Format("Test random fielder: {0}", fielder.Name);
                     }
                 }
                 catch (Exception why)
