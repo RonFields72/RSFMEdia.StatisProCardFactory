@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RSFMEdia.StatisProCardFactory.Business
 {
-    public class BootstrapGenerator
+    public class MarkupFactory
     {
         public static string BuildBootstrapAlertWarning(string alertText)
         {

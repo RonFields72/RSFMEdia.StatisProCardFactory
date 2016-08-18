@@ -164,6 +164,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Data Examples\1984-padres-NL-batting.csv" />
     <Content Include="Data Examples\1984-cardinals-NL-pitching.csv" />
+    <Content Include="Data Examples\1984-padres-NL-fielding.csv" />
+    <Content Include="Data Examples\1984-padres-NL-pitching.csv" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -223,7 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business\CardHelper.cs" />
     <Compile Include="Business\ConfigurationProvider.cs" />
-    <Compile Include="Business\ErrorGenerator.cs" />
+    <Compile Include="Business\MarkupFactory.cs" />
     <Compile Include="Business\FileHelper.cs" />
     <Compile Include="Business\FormulaHelper.cs" />
     <Compile Include="Business\SPCFConstants.cs" />

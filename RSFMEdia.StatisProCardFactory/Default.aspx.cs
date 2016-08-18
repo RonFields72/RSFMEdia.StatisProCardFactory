@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using RSFMEdia.StatisProCardFactory.Business;
+using FileHelpers;
+using RSFMEdia.StatisProCardFactory.Models;
 
 namespace RSFMEdia.StatisProCardFactory
 {
@@ -83,12 +85,55 @@ namespace RSFMEdia.StatisProCardFactory
             if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
             {
                 // display error to user
-                litMessage.Text = BootstrapGenerator.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
+                litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
             }
             else
             {
-                // TODO: make sure the file is a .csv
-                // process uploads
+                try
+                {
+                    // process batting upload
+                    if (fuBatting.HasFile)
+                    {
+                        // generate a file name
+                        var battingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_BATTING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
+                        var battingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + battingFilename;
+
+                        // rename file and save it to the server
+                        fuBatting.SaveAs(battingFullPath);
+
+                        // read the batting data
+                        var csvEngine = new FileHelperEngine<BattingData>();
+                        var batters = csvEngine.ReadFileAsList(battingFullPath);
+                        var batter = batters.FirstOrDefault(b => b.Rank == "6");
+                        lblTestDisplay1.Text = batter.Name;
+                    }
+
+                    // process pitching upload
+                    if (fuPitching.HasFile)
+                    {
+                        // generate a file name
+                        var pitchingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_PITCHING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
+                        var pitchingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + pitchingFilename;
+
+                        // rename file and save it to the server
+                        fuBatting.SaveAs(pitchingFullPath);
+                    }
+
+                    // process fielding upload
+                    if (fuFielding.HasFile)
+                    {
+                        // generate a file name
+                        var fieldingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_FIELDING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
+                        var fieldingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + fieldingFilename;
+
+                        // rename file and save it to the server
+                        fuBatting.SaveAs(fieldingFullPath);
+                    }
+                }
+                catch (Exception why)
+                {
+                    litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning(string.Format("** Error uploading data: {0} **", why.Message));
+                }
             }
         }
         #endregion

@@ -12,12 +12,13 @@ namespace RSFMEdia.StatisProCardFactory.Models
     /// This class is annotated with attributes from the FileHelpers library.
     /// </summary>
     [DelimitedRecord(",")]
+    [IgnoreFirst(1)]
     public class BattingData
     {
         public string Rank { get; set; }
         public string Position { get; set; }
         public string Name { get; set; }
-        public int Age { get; set; }
+        public decimal Age { get; set; }
         public int Games { get; set; }
         public int PlateAppearances { get; set; }
         public int AtBats { get; set; }
@@ -31,10 +32,10 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int CaughtStealing { get; set; }
         public int Walks { get; set; }
         public int Strikeouts { get; set; }
-        public Double BattingAVG { get; set; }
-        public Double OBP { get; set; }
-        public Double SLG { get; set; }
-        public double OPS { get; set; }
+        public decimal BattingAVG { get; set; }
+        public decimal OBP { get; set; }
+        public decimal SLG { get; set; }
+        public decimal OPS { get; set; }
         public int TotalBases { get; set; }
         public int GIDP { get; set; }
         public int HBP { get; set; }
