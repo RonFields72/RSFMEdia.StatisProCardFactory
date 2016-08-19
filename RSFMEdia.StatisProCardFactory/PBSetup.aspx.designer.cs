@@ -11,7 +11,7 @@ namespace RSFMEdia.StatisProCardFactory
 {
 
 
-    public partial class Setup
+    public partial class PBSetup
     {
     }
 }

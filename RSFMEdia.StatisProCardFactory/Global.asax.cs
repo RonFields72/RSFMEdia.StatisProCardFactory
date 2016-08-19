@@ -6,6 +6,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using RSFMEdia.StatisProCardFactory.Business;
+using RSFMEdia.StatisProCardFactory.DataLayer;
 
 namespace RSFMEdia.StatisProCardFactory
 {
@@ -26,6 +28,17 @@ namespace RSFMEdia.StatisProCardFactory
             wordsLicense.SetLicense("Aspose.Total.lic");
             Aspose.Pdf.License pdfLicense = new Aspose.Pdf.License();
             pdfLicense.SetLicense("Aspose.Total.lic");
+
+            // create application directories
+            var fileHelper = new FileHelper();
+            fileHelper.CreateDirectory(SPCFConstants.SPCF_MASTER_DIRECTORY);
+            fileHelper.CreateDirectory(SPCFConstants.SPCF_OUTPUT_DIRECTORY);
+            fileHelper.CreateDirectory(SPCFConstants.SPCF_CSV_DIRECTORY);
+            fileHelper.CreateDirectory(SPCFConstants.SPCF_DB_DIRECTORY);
+
+            // create data dependencies (if necessary)
+            var spcfData = new SPCFDataEngine();
+            spcfData.CreateDB();
         }
     }
 }

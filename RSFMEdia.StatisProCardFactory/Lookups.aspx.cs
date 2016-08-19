@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace RSFMEdia.StatisProCardFactory
 {
-    public partial class PBAdmin : System.Web.UI.Page
+    public partial class Lookups : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

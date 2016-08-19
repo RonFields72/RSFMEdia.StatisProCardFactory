@@ -6,30 +6,26 @@ using System.Web;
 
 namespace RSFMEdia.StatisProCardFactory.Business
 {
+    /// <summary>
+    /// FileHelper class is an abstraction over the System.IO functions in case you want to apply a user with more permissions.
+    /// </summary>
     public class FileHelper
     {
         /// <summary>
         /// Determines if a directory exists.
         /// </summary>
         /// <param name="directoryPath">The directory path.</param>
-        /// <returns></returns>
+        /// <returns>true if directory exists, otherwise false.</returns>
         public bool DirectoryExists(string directoryPath)
         {
-            bool exists = false;
-                        
-            if (Directory.Exists(directoryPath))
-            {
-                exists = true;
-            }
-            
-            return exists;
+            return Directory.Exists(directoryPath) ? true : false;
         }
 
         /// <summary>
         /// Determines if a file exists.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        /// <returns></returns>
+        /// <returns>true if file exists, otherwise false.</returns>
         public bool FileExists(string filePath)
         {
             return File.Exists(filePath) ? true : false;
@@ -97,6 +93,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
             return fileList;
         }
 
+        /// <summary>
+        /// Copies a file from one location to another.
+        /// </summary>
+        /// <param name="originalFilePath">The original file path.</param>
+        /// <param name="newFilePath">The new file path.</param>
         public void CopyFile(string originalFilePath, string newFilePath)
         {
             if (File.Exists(originalFilePath))

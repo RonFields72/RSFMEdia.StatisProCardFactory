@@ -13,21 +13,21 @@ namespace RSFMEdia.StatisProCardFactory {
     public partial class SiteMaster {
         
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// cphHEAD control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHEAD;
         
         /// <summary>
-        /// MainContent control.
+        /// cphMainContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphMainContent;
     }
 }

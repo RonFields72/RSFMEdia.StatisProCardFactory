@@ -13,7 +13,11 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
         SQLiteConnection _DBConnection;
         string _databasePath = string.Format("{0}{1}", SPCFConstants.SPCF_DB_DIRECTORY, "SPCFData.sqlite");
         string _connectionString = string.Format("Data Source={0}{1}; Version=3;", SPCFConstants.SPCF_DB_DIRECTORY, "SPCFData.sqlite");
+        string _skinnyConnectionString = string.Format("Data Source={0}{1};", SPCFConstants.SPCF_DB_DIRECTORY, "SPCFData.sqlite");
 
+        /// <summary>
+        /// Creates the database requirements for Statis-Pro Card Factory.
+        /// </summary>
         public void CreateDB()
         {
             FileHelper fileMagic = new FileHelper();
@@ -21,7 +25,7 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
             {
                 SQLiteConnection.CreateFile(_databasePath);
 
-                // create the tables
+                // create the tables in the SQLite database
                 using (_DBConnection = new SQLiteConnection(_connectionString))
                 {
                     // open the connection
@@ -34,6 +38,19 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
 
                     // TODO: create more lookup tables here
                 }
+            }
+        }
+
+        public PitcherControlFactor GetPB()
+        {
+            using (var conn = new SQLiteContext(this._skinnyConnectionString))
+            { 
+                // linq test query
+                var thePB = conn.PitcherControlFactor
+                    .Where(pb => pb.PB == "2-9")
+                    .FirstOrDefault();
+
+                return thePB;
             }
         }
 
@@ -70,15 +87,15 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
         /// <param name="league"></param>
         /// <param name="era"></param>
         /// <returns></returns>
-        public PitcherControl GetPB(int year, string league, decimal era)
-        {
-            using (_DBConnection = new SQLiteConnection(_connectionString))
-            {
-                // open the connection
-                _DBConnection.Open();
+        //public PitcherControl GetPB(int year, string league, decimal era)
+        //{
+        //    using (_DBConnection = new SQLiteConnection(_connectionString))
+        //    {
+        //        // open the connection
+        //        _DBConnection.Open();
 
-                // get the PB range for the given year
-            }
-        }
+        //        // get the PB range for the given year
+        //    }
+        //}
     }
 }

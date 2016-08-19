@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using RSFMEdia.StatisProCardFactory.Business;
 using FileHelpers;
-using RSFMEdia.StatisProCardFactory.Models;
+using RSFMEdia.StatisProCardFactory.Business;
 using RSFMEdia.StatisProCardFactory.DataLayer;
+using RSFMEdia.StatisProCardFactory.Models;
 
 namespace RSFMEdia.StatisProCardFactory
 {
-    public partial class _Default : Page
+    public partial class Index : System.Web.UI.Page
     {
         #region Page Events
         protected void Page_Load(object sender, EventArgs e)
@@ -32,6 +32,11 @@ namespace RSFMEdia.StatisProCardFactory
         {
             LoadTeams();
             LoadSeasons();
+            
+            // test 
+            SPCFDataEngine theData = new SPCFDataEngine();
+            var theTEstObj = theData.GetPB();
+            lblTestDisplay4.Text = string.Format("{0}, {1}, {2}. {3}", theTEstObj.PB, theTEstObj.Year, theTEstObj.League, theTEstObj.HighestERA.ToString());
         }
 
         private void LoadSeasons()
@@ -138,6 +143,9 @@ namespace RSFMEdia.StatisProCardFactory
                         var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
                         lblTestDisplay3.Text = string.Format("Test random fielder: {0}", fielder.Name);
                     }
+
+
+                    
                 }
                 catch (Exception why)
                 {

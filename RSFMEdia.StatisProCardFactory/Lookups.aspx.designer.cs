@@ -11,7 +11,7 @@ namespace RSFMEdia.StatisProCardFactory
 {
 
 
-    public partial class PBAdmin
+    public partial class Lookups
     {
     }
 }

@@ -43,6 +43,20 @@ namespace RSFMEdia.StatisProCardFactory.Business
             new MLBTeam {Name="Washington Nationals", Abbreviation="WSN", ShortName="Nationals"}
         };
 
+        public List<MLBTeam> ClassicTeams = new List<MLBTeam>()
+        {
+            new MLBTeam {Name="Boston Braves", Abbreviation="BOB", ShortName="Braves"},
+            new MLBTeam {Name="Brooklyn Dodgers", Abbreviation="BKN", ShortName="Dodgers"},
+            new MLBTeam {Name="Florida Marlins", Abbreviation="FLA", ShortName="Marlins"},
+            new MLBTeam {Name="Kansas City Athletics", Abbreviation="KCA", ShortName="Athletics"},
+            new MLBTeam {Name="Milwaukee Braves", Abbreviation="MIB", ShortName="Braves"},
+            new MLBTeam {Name="Montreal Expos", Abbreviation="MON", ShortName="Expos"},
+            new MLBTeam {Name="New York Giants", Abbreviation="NYG", ShortName="Giants"},
+             new MLBTeam {Name="Seattle Pilots", Abbreviation="SEP", ShortName="Pilots"},
+            new MLBTeam {Name="St. Louis Browns", Abbreviation="STB", ShortName="Browns"},
+            new MLBTeam {Name="Washington Senators", Abbreviation="WSS", ShortName="Senators"}
+        };
+
         #region Constructors
         public MLBData()
         {
