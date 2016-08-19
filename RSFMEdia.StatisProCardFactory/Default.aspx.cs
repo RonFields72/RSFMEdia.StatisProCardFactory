@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using RSFMEdia.StatisProCardFactory.Business;
 using FileHelpers;
 using RSFMEdia.StatisProCardFactory.Models;
+using RSFMEdia.StatisProCardFactory.DataLayer;
 
 namespace RSFMEdia.StatisProCardFactory
 {
@@ -24,6 +25,11 @@ namespace RSFMEdia.StatisProCardFactory
                 fileHelper.CreateDirectory(SPCFConstants.SPCF_MASTER_DIRECTORY);
                 fileHelper.CreateDirectory(SPCFConstants.SPCF_OUTPUT_DIRECTORY);
                 fileHelper.CreateDirectory(SPCFConstants.SPCF_CSV_DIRECTORY);
+                fileHelper.CreateDirectory(SPCFConstants.SPCF_DB_DIRECTORY);
+
+                // create data dependencies (if necessary)
+                var spcfData = new SPCFDataEngine();
+                spcfData.CreateDB();
 
                 // load the page
                 LoadPage();

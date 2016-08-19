@@ -4,7 +4,7 @@
 
     <div class="jumbotron">
         <h2>Statis-Pro Card Factory</h2>
-        <p class="lead">Complete the data inputs below and click Upload to process the player/pitcher/fielding data necessary to create cards.</p>
+        <span class="text-muted spcf-font-90">Complete the data inputs below and click Upload to process the player/pitcher/fielding data necessary to create cards.</span>
     </div>
     <div class="row">
         <div class="col-md-12">

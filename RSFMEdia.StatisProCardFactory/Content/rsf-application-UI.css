@@ -29,9 +29,6 @@ textarea {
     }
 }
 
-h3 {
-    font-family: Calibri;
-}
 .spcf-row-buffer {
     margin-top: 2px;
 }
@@ -43,4 +40,7 @@ h3 {
     color: #9C27B0;
     font-style: italic;
     font-size: .90em;
+}
+.spcf-font-90 {
+    font-size: 90em;
 }

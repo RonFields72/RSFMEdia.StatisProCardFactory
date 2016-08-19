@@ -26,6 +26,16 @@ namespace RSFMEdia.StatisProCardFactory.Business
         }
 
         /// <summary>
+        /// Determines if a file exists.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
+        public bool FileExists(string filePath)
+        {
+            return File.Exists(filePath) ? true : false;
+        }
+
+        /// <summary>
         /// Creates the directory if it does not already exist.
         /// </summary>
         /// <param name="directoryPath">The directory path.</param>
