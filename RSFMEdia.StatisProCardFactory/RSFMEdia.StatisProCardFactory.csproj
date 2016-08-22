@@ -214,10 +214,10 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
+    <Content Include="SQL\TextFile1.txt" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config">
       <SubType>Designer</SubType>
@@ -255,15 +255,8 @@
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Business\MLBData.cs" />
-    <Compile Include="DataLayer\SPCFDataEngine.cs" />
     <Compile Include="DataLayer\SQLiteContext.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="DataLayer\SQLiteDb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -282,7 +275,7 @@
       <DependentUpon>Lookups.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\MLBTeam.cs" />
-    <Compile Include="Models\PitcherControlFactor.cs" />
+    <Compile Include="Models\PBLookup.cs" />
     <Compile Include="Models\PitcherControl.cs" />
     <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />

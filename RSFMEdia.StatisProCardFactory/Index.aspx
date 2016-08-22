@@ -121,6 +121,7 @@
     <br />
     <asp:Button ID="btnUpload" runat="server" Text="Upload Data" CssClass="btn btn-default" OnClick="btnUpload_Click" />
     <div id="testArea">
+        <asp:Button ID="btnTest" runat="server" Text="Test Stuff" CssClass="btn btn-info" OnClick="btnTest_Click" CausesValidation="false" />
         <asp:Label ID="lblTestDisplay1" runat="server" Text=""></asp:Label>
         <asp:Label ID="lblTestDisplay2" runat="server" Text=""></asp:Label>
         <asp:Label ID="lblTestDisplay3" runat="server" Text=""></asp:Label>

@@ -37,8 +37,8 @@ namespace RSFMEdia.StatisProCardFactory
             fileHelper.CreateDirectory(SPCFConstants.SPCF_DB_DIRECTORY);
 
             // create data dependencies (if necessary)
-            var spcfData = new SPCFDataEngine();
-            spcfData.CreateDB();
+            var spcfData = new SQLiteDb();
+            spcfData.CreateApplicationDb();
         }
     }
 }

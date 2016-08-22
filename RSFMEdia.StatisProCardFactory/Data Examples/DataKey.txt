@@ -26,3 +26,21 @@ To determine how the batter hits check the last character of the Name column in 
 * -- left
 # -- switch
 otherwise they are right handed batters
+
+
+PBLookup seed
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
+VALUES ( '1984','NL','2-9',2.23 );
+
+INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
+VALUES ( '1984','NL','2-8',3.37 );
+
+INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
+VALUES ( '1984','NL','2-7',3.53 );
+
+INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
+VALUES ( '1984','NL','2-6',4.69 );
+
+INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
+VALUES ( '1984','NL','2-5',9999 );

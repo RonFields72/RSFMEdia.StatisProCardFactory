@@ -32,11 +32,6 @@ namespace RSFMEdia.StatisProCardFactory
         {
             LoadTeams();
             LoadSeasons();
-            
-            // test 
-            SPCFDataEngine theData = new SPCFDataEngine();
-            var theTEstObj = theData.GetPB();
-            lblTestDisplay4.Text = string.Format("{0}, {1}, {2}. {3}", theTEstObj.PB, theTEstObj.Year, theTEstObj.League, theTEstObj.HighestERA.ToString());
         }
 
         private void LoadSeasons()
@@ -154,5 +149,20 @@ namespace RSFMEdia.StatisProCardFactory
             }
         }
         #endregion
+
+        protected void btnTest_Click(object sender, EventArgs e)
+        {
+            // test data pull using LINQ and  
+            string testERA = string.Empty;
+            using (var context = new SQLiteContext())
+            {
+                var stuff = context.PBLookups;
+                foreach (var range in stuff)
+                {
+                    testERA += range.HighestERA.ToString();
+                }
+            }
+            lblTestDisplay4.Text = testERA.Trim();
+        }
     }
 }
