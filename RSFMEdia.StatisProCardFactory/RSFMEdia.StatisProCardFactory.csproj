@@ -275,6 +275,7 @@
       <DependentUpon>Lookups.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\MLBTeam.cs" />
+    <Compile Include="Models\NormalizedPlayer.cs" />
     <Compile Include="Models\PBLookup.cs" />
     <Compile Include="Models\PitcherControl.cs" />
     <Compile Include="Models\PitchingData.cs" />
@@ -283,6 +284,8 @@
     <Compile Include="Models\BattingData.cs" />
     <Compile Include="Models\PlayerCard.cs" />
     <Compile Include="Models\FieldingData.cs" />
+    <Compile Include="Models\SACLookup.cs" />
+    <Compile Include="Models\SPLookup.cs" />
     <Compile Include="PBSetup.aspx.cs">
       <DependentUpon>PBSetup.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

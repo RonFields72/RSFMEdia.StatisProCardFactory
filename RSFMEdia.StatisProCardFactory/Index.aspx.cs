@@ -101,7 +101,7 @@ namespace RSFMEdia.StatisProCardFactory
                         // read the batting data
                         var csvEngine = new FileHelperEngine<BattingData>();
                         var batters = csvEngine.ReadFileAsList(battingFullPath);
-                        var batter = batters.FirstOrDefault(b => b.Rank == "6");
+                        var batter = batters.FirstOrDefault(b => b.Age >= 25);
                         lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
                     }
 
@@ -118,7 +118,7 @@ namespace RSFMEdia.StatisProCardFactory
                         // read the pitching data
                         var csvEngine = new FileHelperEngine<PitchingData>();
                         var pitchers = csvEngine.ReadFileAsList(pitchingFullPath);
-                        var pitcher = pitchers.FirstOrDefault(b => b.Rank == "11");
+                        var pitcher = pitchers.FirstOrDefault(b => b.Age >= 31);
                         lblTestDisplay2.Text = string.Format("Test random pitcher: {0}", pitcher.Name);
                     }
 

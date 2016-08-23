@@ -3,7 +3,7 @@
 
 **Batting Data CSV Format:
 ---------------------------------------------------------------------------------------------------
-Rk,Pos,Name,Age,G,PA,AB,R,H,2B,3B,HR,RBI,SB,CS,BB,SO,BA,OBP,SLG,OPS,TB,GDP,HBP,SH,SF,IBB
+Rk,Pos,Name,Age,G,PA,AB,R,H,2B,3B,HR,RBI,SB,CS,BB,SO,BA,OBP,SLG,OPS,TB,GDP,HBP,SH,SF,IBB,UBR(FanGraphs)
 
 
 **Pitching Data CSV Format:
@@ -13,7 +13,7 @@ Rk,Pos,Name,Age,W,L,ERA,G,GS,GF,CG,SHO,SV,IP,H,R,ER,HR,BB,IBB,SO,HBP,BK,WP,BF,FI
 
 **Fielding Data CSV Format: (this is pulled by position and then copied into a single file)
 ---------------------------------------------------------------------------------------------------
-Name,POS,Age,G,GS,CG,Inn,Ch,PO,A,E,DP,Fld%,PB,WP,SB,CS,CSPCT
+Name,POS,Age,G,GS,CG,Inn,Ch,PO,A,E,DP,Fld%,PB,WP,SB,CS,CSPCT,UZR(FanGraphs)
 *Players will have one row for each position played
 
 

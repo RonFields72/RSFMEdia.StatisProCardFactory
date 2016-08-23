@@ -2,19 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FileHelpers;
 
 namespace RSFMEdia.StatisProCardFactory.Models
 {
-    /// <summary>
-    /// Represents the batting data obtained from Baseball-Reference.com or FanGraphs.
-    /// The data can be exported in .csv format and then uploaded into StatisProCardFactory.
-    /// This class is annotated with attributes from the FileHelpers library.
-    /// </summary>
-    [DelimitedRecord(",")]
-    [IgnoreFirst(1)]
-    public class BattingData
+    public class NormalizedPlayer
     {
+        public string Position { get; set; }
         public string Name { get; set; }
         public decimal Age { get; set; }
         public int Games { get; set; }
@@ -25,8 +18,10 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int Doubles { get; set; }
         public int Triples { get; set; }
         public int HR { get; set; }
+        public int HRPerSeason { get; set; }
         public int RBI { get; set; }
         public int StolenBases { get; set; }
+        public int StolenBasesPerSeason { get; set; }
         public int CaughtStealing { get; set; }
         public int Walks { get; set; }
         public int Strikeouts { get; set; }

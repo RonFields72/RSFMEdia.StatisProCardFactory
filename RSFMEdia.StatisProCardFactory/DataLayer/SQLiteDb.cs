@@ -254,14 +254,26 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
                 var pbRows = ExecuteNonQuery(createPBTableSQL);
 
                 // SAC lookup table
-                string sacTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SACLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, SACRIFICE_HITS INT NOT NULL, SAC_RATING varchar(10) NOT NULL)";
+                string sacTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SACLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, SacrificeHits INT NOT NULL, SAC varchar(10) NOT NULL)";
                 var sacRows = ExecuteNonQuery(sacTableSQL);
 
                 // SP lookup table
-                string spTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SPLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, STOLEN_BASES INT NOT NULL, SP_RATING varchar(10) NOT NULL)";
+                string spTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SPLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, StolenBases INT NOT NULL, SP varchar(10) NOT NULL)";
                 var spRows = ExecuteNonQuery(sacTableSQL);
 
-                // TODO: create more lookup tables here
+                // OBR lookup table
+                string obrTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OBRLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, RunsPlusStolenBases INT NOT NULL, OBR varchar(10) NOT NULL)";
+                var obrRows = ExecuteNonQuery(sacTableSQL);
+
+                // Catcher throwing lookup
+                string cArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_CatcherThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, CaughtStealingPercent INT NOT NULL, Rating varchar(10) NOT NULL)";
+                var cArmRows = ExecuteNonQuery(sacTableSQL);
+
+                // Outfielder throwing lookup
+                string ofArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OutfielderThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, CaughtStealingPercent INT NOT NULL, Rating varchar(10) NOT NULL)";
+                var ofArmRows = ExecuteNonQuery(sacTableSQL);
+
+                
             }
         }
         #endregion
