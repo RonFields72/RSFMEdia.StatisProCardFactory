@@ -15,8 +15,6 @@ namespace RSFMEdia.StatisProCardFactory.Models
     [IgnoreFirst(1)]
     public class PitchingData
     {
-        public string Rank { get; set; }
-        public string Position { get; set; }
         public string Name { get; set; }
         public decimal Age { get; set; }
         public int Wins { get; set; }
@@ -24,7 +22,6 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public decimal ERA { get; set; }
         public int Games { get; set; }
         public int GamesStarted { get; set; }
-        public int GamesFinished { get; set; }
         public int CompleteGames { get; set; }
         public int Shutouts { get; set; }
         public int Saves { get; set; }

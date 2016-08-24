@@ -245,7 +245,7 @@
     <Compile Include="Business\ConfigurationProvider.cs" />
     <Compile Include="Business\MarkupFactory.cs" />
     <Compile Include="Business\FileHelper.cs" />
-    <Compile Include="Business\FormulaHelper.cs" />
+    <Compile Include="Business\FormulaFactory.cs" />
     <Compile Include="Business\SPCFConstants.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>

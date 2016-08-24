@@ -16,7 +16,7 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public string Remarks { get; set; }
         public string OBR { get; set; }
         public string SP { get; set; }
-        public string HAndR { get; set; }
+        public string HandR { get; set; }
         public string CD { get; set; }
         public string SAC { get; set; }
         public string Inj { get; set; }
@@ -47,8 +47,8 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int InfoRBI { get; set; }
         public int InfoStolenBases { get; set; }
         public int InfoWalks { get; set; }
-        public Double InfoAVG { get; set; }
-        public Double InfoSLG { get; set; }
+        public double InfoAVG { get; set; }
+        public double InfoSLG { get; set; }
         public double InfoOPS { get; set; }
         
     }

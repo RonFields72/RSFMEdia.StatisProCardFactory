@@ -7,7 +7,8 @@ using FileHelpers;
 namespace RSFMEdia.StatisProCardFactory.Models
 {
     /// <summary>
-    /// Represents the batting data obtained from Baseball-Reference.com or FanGraphs.
+    /// Represents the batting data obtained from Baseball-Reference.com
+    /// UBR is obtained from FanGraphs.
     /// The data can be exported in .csv format and then uploaded into StatisProCardFactory.
     /// This class is annotated with attributes from the FileHelpers library.
     /// </summary>
@@ -34,8 +35,6 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public decimal OBP { get; set; }
         public decimal SLG { get; set; }
         public decimal OPS { get; set; }
-        public int TotalBases { get; set; }
-        public int GIDP { get; set; }
         public int HBP { get; set; }
         public int SacrificeHits { get; set; }
         public int SacrificeFlys { get; set; }
