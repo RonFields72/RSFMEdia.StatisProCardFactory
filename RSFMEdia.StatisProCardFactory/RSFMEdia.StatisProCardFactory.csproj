@@ -137,7 +137,9 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Templates\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -180,10 +182,8 @@
     <Content Include="PBSetup.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Data Examples\1984-padres-NL-batting.csv" />
-    <Content Include="Data Examples\1984-cardinals-NL-pitching.csv" />
-    <Content Include="Data Examples\1984-padres-NL-fielding.csv" />
-    <Content Include="Data Examples\1984-padres-NL-pitching.csv" />
+    <Content Include="Data Examples\padres-batting-example.csv" />
+    <Content Include="Data Examples\padres-pitching-example.csv" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -241,12 +241,13 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Business\CardHelper.cs" />
+    <Compile Include="Business\CardFactory.cs" />
     <Compile Include="Business\ConfigurationProvider.cs" />
     <Compile Include="Business\MarkupFactory.cs" />
     <Compile Include="Business\FileHelper.cs" />
     <Compile Include="Business\FormulaFactory.cs" />
     <Compile Include="Business\SPCFConstants.cs" />
+    <Compile Include="Business\StatisProData.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -274,6 +275,8 @@
     <Compile Include="Lookups.aspx.designer.cs">
       <DependentUpon>Lookups.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BatterCardAnalysis.cs" />
+    <Compile Include="Models\CardProcessingConfiguration.cs" />
     <Compile Include="Models\MLBTeam.cs" />
     <Compile Include="Models\NormalizedPlayer.cs" />
     <Compile Include="Models\PBLookup.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="Models\FieldingData.cs" />
     <Compile Include="Models\SACLookup.cs" />
     <Compile Include="Models\SPLookup.cs" />
+    <Compile Include="Models\SPNumber.cs" />
     <Compile Include="PBSetup.aspx.cs">
       <DependentUpon>PBSetup.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

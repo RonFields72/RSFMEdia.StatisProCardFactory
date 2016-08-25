@@ -39,6 +39,6 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int SacrificeHits { get; set; }
         public int SacrificeFlys { get; set; }
         public int IBB { get; set; }
-        public decimal UBR { get; set; }
+        public decimal? UBR { get; set; }
     }
 }

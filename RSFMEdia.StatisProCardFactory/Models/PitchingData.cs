@@ -22,6 +22,7 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public decimal ERA { get; set; }
         public int Games { get; set; }
         public int GamesStarted { get; set; }
+        public int GamesFinished { get; set; }
         public int CompleteGames { get; set; }
         public int Shutouts { get; set; }
         public int Saves { get; set; }

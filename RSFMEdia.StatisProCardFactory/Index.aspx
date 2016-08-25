@@ -78,6 +78,14 @@
             </div>
         </div>
     </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Card Processing Configuration</div>
+        <div class="panel-body">
+            <asp:CheckBox ID="cbUseUBR" runat="server" />Use UBR (if provided)
+        </div>
+    </div>
+    
     <div class="panel panel-default">
         <div class="panel-heading">File Uploads</div>
         <div class="panel-body">

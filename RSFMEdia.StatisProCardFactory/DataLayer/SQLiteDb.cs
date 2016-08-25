@@ -270,7 +270,7 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
                 var cArmRows = ExecuteNonQuery(sacTableSQL);
 
                 // Outfielder throwing lookup
-                string ofArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OutfielderThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, CaughtStealingPercent INT NOT NULL, Rating varchar(10) NOT NULL)";
+                string ofArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OutfielderThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, Assists INT NOT NULL, Rating varchar(10) NOT NULL)";
                 var ofArmRows = ExecuteNonQuery(sacTableSQL);
 
                 

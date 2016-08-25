@@ -79,7 +79,9 @@ namespace RSFMEdia.StatisProCardFactory
         protected void btnUpload_Click(object sender, EventArgs e)
         {
             // verify that files were uploaded
-            if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
+            // TODO: don't forget to check for all three files
+            //if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
+            if (!fuBatting.HasFiles)
             {
                 // display error to user
                 litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
@@ -103,6 +105,9 @@ namespace RSFMEdia.StatisProCardFactory
                         var batters = csvEngine.ReadFileAsList(battingFullPath);
                         var batter = batters.FirstOrDefault(b => b.Age >= 25);
                         lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
+
+                        // process the batting data and create player cards
+                        
                     }
 
                     // process pitching upload
@@ -138,9 +143,6 @@ namespace RSFMEdia.StatisProCardFactory
                         var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
                         lblTestDisplay3.Text = string.Format("Test random fielder: {0}", fielder.Name);
                     }
-
-
-                    
                 }
                 catch (Exception why)
                 {
