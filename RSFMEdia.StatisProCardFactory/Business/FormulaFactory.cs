@@ -8,20 +8,22 @@ namespace RSFMEdia.StatisProCardFactory.Business
 {
     public class FormulaFactory
     {
-        public int CalculateBDRating(BattingData playerData)
+        public PlayerCard CalculateBDRating(BattingData playerData, PlayerCard thePlayerCard)
         {
-            return 0;
+            // adds the BD doubles, triples and HR ranges to the card
+            var theCard = new PlayerCard();
+            return theCard;
         }
 
-        public int CalculateClassicBDRating(NormalizedPlayer playerData)
+        public PlayerCard CalculateClassicBDRating(BattingData playerData, PlayerCard thePlayerCard)
         {
                 if (playerData.HR >= 30)
                 {
-                    return 2;
+                    
                 }
                 if (playerData.HR >= 20)
                 {
-                    return 1;
+                   
                 }
                 return 0;
         }
