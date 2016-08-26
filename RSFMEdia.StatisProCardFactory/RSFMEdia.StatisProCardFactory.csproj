@@ -183,6 +183,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Data Examples\padres-batting-example.csv" />
+    <Content Include="Data Examples\padres-fielding-example.csv" />
     <Content Include="Data Examples\padres-pitching-example.csv" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -247,6 +248,7 @@
     <Compile Include="Business\FileHelper.cs" />
     <Compile Include="Business\FormulaFactory.cs" />
     <Compile Include="Business\SPCFConstants.cs" />
+    <Compile Include="Business\SPCFEnums.cs" />
     <Compile Include="Business\StatisProData.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -276,11 +278,15 @@
       <DependentUpon>Lookups.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\BatterCardAnalysis.cs" />
+    <Compile Include="Models\BDRatings.cs" />
     <Compile Include="Models\CardProcessingConfiguration.cs" />
+    <Compile Include="Models\CatcherArm.cs" />
     <Compile Include="Models\MLBTeam.cs" />
     <Compile Include="Models\NormalizedPlayer.cs" />
+    <Compile Include="Models\OutfieldArm.cs" />
     <Compile Include="Models\PBLookup.cs" />
     <Compile Include="Models\PitcherControl.cs" />
+    <Compile Include="Models\PitcherFieldingData.cs" />
     <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />
     <Compile Include="Models\PitcherFielding.cs" />

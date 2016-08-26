@@ -130,6 +130,24 @@ namespace RSFMEdia.StatisProCardFactory {
         protected global::System.Web.UI.WebControls.CheckBox cbUseUBR;
         
         /// <summary>
+        /// cbUseUZR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbUseUZR;
+        
+        /// <summary>
+        /// cbUseTZ control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbUseTZ;
+        
+        /// <summary>
         /// fuBatting control.
         /// </summary>
         /// <remarks>

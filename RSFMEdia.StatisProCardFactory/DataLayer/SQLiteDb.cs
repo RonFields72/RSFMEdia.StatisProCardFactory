@@ -259,21 +259,49 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
 
                 // SP lookup table
                 string spTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SPLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, StolenBases INT NOT NULL, SP varchar(10) NOT NULL)";
-                var spRows = ExecuteNonQuery(sacTableSQL);
+                var spRows = ExecuteNonQuery(spTableSQL);
 
                 // OBR lookup table
                 string obrTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OBRLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, RunsPlusStolenBases INT NOT NULL, OBR varchar(10) NOT NULL)";
-                var obrRows = ExecuteNonQuery(sacTableSQL);
+                var obrRows = ExecuteNonQuery(obrTableSQL);
 
                 // Catcher throwing lookup
                 string cArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_CatcherThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, CaughtStealingPercent INT NOT NULL, Rating varchar(10) NOT NULL)";
-                var cArmRows = ExecuteNonQuery(sacTableSQL);
+                var cArmRows = ExecuteNonQuery(cArmTableSQL);
 
                 // Outfielder throwing lookup
                 string ofArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OutfielderThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, Assists INT NOT NULL, Rating varchar(10) NOT NULL)";
-                var ofArmRows = ExecuteNonQuery(sacTableSQL);
+                var ofArmRows = ExecuteNonQuery(ofArmTableSQL);
 
-                
+                // SIngles to Pitcher Cards
+                string pitcherSinglesTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SinglesToPitcherLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, HitsPerInningLow DECIMAL NOT NULL, HitsPerInningHigh DECIMAL NOT NULL,  " +
+                        "PB2to9 INT NOT NULL, PB2to8 INT NOT NULL, PB2to7 INT NOT NULL, PB2to6 INT NOT NULL, PB2to5 INT NOT NULL )";
+                var pitcherSinglesRows = ExecuteNonQuery(pitcherSinglesTableSQL);
+
+                // SIngles to Pitcher Cards
+                string pitcherBBandKTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_BBAndKToPitcherLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, BBKPerInningLow DECIMAL NOT NULL, BBKPerInningHigh DECIMAL NOT NULL,  " +
+                        "PB2to9 INT NOT NULL, PB2to8 INT NOT NULL, PB2to7 INT NOT NULL, PB2to6 INT NOT NULL, PB2to5 INT NOT NULL )";
+                var pitcherBBKRows = ExecuteNonQuery(pitcherBBandKTableSQL);
+
+                // 1B Fielding lookup table
+                string firstBaseTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_Fielding1BLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, FieldingPctLow DECIMAL NOT NULL, FieldingPctHigh DECIMAL NOT NULL,  " +
+                        "ErrorRating varchar(10))";
+                var fielding1BRows = ExecuteNonQuery(firstBaseTableSQL);
+
+                // 3B Fielding lookup table
+                string thirdBaseTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_Fielding3BLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, FieldingPctLow DECIMAL NOT NULL, FieldingPctHigh DECIMAL NOT NULL,  " +
+                        "ErrorRating varchar(10))";
+                var fielding3BRows = ExecuteNonQuery(thirdBaseTableSQL);
+
+                // OF Fielding lookup table
+                string ofTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_FieldingOFLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, FieldingPctLow DECIMAL NOT NULL, FieldingPctHigh DECIMAL NOT NULL,  " +
+                        "ErrorRating varchar(10))";
+                var fieldingOFRows = ExecuteNonQuery(ofTableSQL);
+
+                // 2B, SS, C and P fielding lookup table
+                string ifTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_FieldingIFLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, FieldingPctLow DECIMAL NOT NULL, FieldingPctHigh DECIMAL NOT NULL,  " +
+                        "ErrorRating varchar(10))";
+                var fieldingIFRows = ExecuteNonQuery(ifTableSQL);
             }
         }
         #endregion

@@ -8,9 +8,12 @@ namespace RSFMEdia.StatisProCardFactory.Business
 {
     public class CardFactory
     {
-        public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, CardProcessingConfiguration configSettings)
+        //public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, List<FieldingData> fielderData, CardProcessingConfiguration configSettings)
+            public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, CardProcessingConfiguration configSettings)
         {
             // init process statistics
+            var process = new BatterCardAnalysis();
+            process.Start = DateTime.Now;
 
             // process each batter
             foreach (var batter in batterData)
@@ -19,15 +22,45 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 PlayerCard newBatterCard = new PlayerCard();
                 FormulaFactory formulas = new FormulaFactory();
 
-                // set static properties
-                // bats
-                newBatterCard.InfoAtBats = batter.AtBats.ToString();
-                newBatterCard.InfoAVG = batter.BattingAVG.ToString();
+                // set statistics
+                newBatterCard.InfoAtBats = batter.AB.ToString();
+                newBatterCard.InfoHits = batter.H.ToString();
                 newBatterCard.InfoDoubles = batter.Doubles.ToString();
+                newBatterCard.InfoTriples = batter.Triples.ToString();
+                newBatterCard.InfoHomeruns = batter.HR.ToString();
+                newBatterCard.InfoStolenBases = batter.SB.ToString();
+                newBatterCard.InfoWalks = batter.BB.ToString();
+                newBatterCard.InfoRBI = batter.RBI.ToString();
+                newBatterCard.InfoRuns = batter.R.ToString();
+                newBatterCard.InfoAVG = batter.BA.ToString();
+                newBatterCard.InfoOPS = batter.OPS.ToString();
+                newBatterCard.InfoSLG = batter.SLG.ToString();
+
+                // attributes
+                newBatterCard.Name = formulas.ParsePlayerName(batter.Name);
+                newBatterCard.Age = Math.Round(batter.Age, 0).ToString();
+                newBatterCard.Team = configSettings.TeamName.Trim();
+                newBatterCard.League = configSettings.League;
+                newBatterCard.Year = configSettings.Year;
+
+                // positions and ratings
+                // newBatterCard.Fielding = 
 
 
-                newBatterCard.Cht = 
+                // BD Ratings
+                newBatterCard.BDRating = formulas.CalculateClassicBDRating(batter);
+                var expandedBD = formulas.CalculateBDRatings(batter);
+
+
+
+                //newBatterCard.Cht = 
             }
+
+            // end the process
+            process.End = DateTime.Now;
+
+            // return the analysis
+            return process;
         }
     }
 }

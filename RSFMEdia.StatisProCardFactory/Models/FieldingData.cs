@@ -15,23 +15,25 @@ namespace RSFMEdia.StatisProCardFactory.Models
     [IgnoreFirst(1)]
     public class FieldingData
     {
+        public string Pos { get; set; }
         public string Name { get; set; }
-        public string Position { get; set; }
         public decimal Age { get; set; }
-        public int Games { get; set; }
-        public int GamesStarted { get; set; }
-        public int CompleteGames { get; set; }
-        public decimal Innings { get; set; }
-        public int Chances { get; set; }
-        public decimal PutOuts { get; set; }
-        public int Assists { get; set; }
-        public int Errors { get; set; }
-        public int DoublePlays { get; set; }
-        public decimal FieldingPercentage { get; set; }
-        public int PassedBalls { get; set; }
-        public int WildPitches { get; set; }
-        public int StolenBases { get; set; }
-        public int CaughtStealing { get; set; }
-        public int CaughtStealingPercentage { get; set; }
+        public int G { get; set; }
+        public int GS { get; set; }
+        public int CG { get; set; }
+        public decimal Inn { get; set; }
+        public int Ch { get; set; }
+        public decimal PO { get; set; }
+        public int A { get; set; }
+        public int E { get; set; }
+        public int DP { get; set; }
+        public decimal FldPct { get; set; }
+        public int? TZ { get; set; }
+        public int? PB { get; set; }
+        public int? WP { get; set; }
+        public int? SB { get; set; }
+        public int? CS { get; set; }
+        public int? CSPct { get; set; }
+        public int? UZR { get; set; }
     }
 }

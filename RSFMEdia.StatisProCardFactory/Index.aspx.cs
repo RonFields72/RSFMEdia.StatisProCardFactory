@@ -13,6 +13,14 @@ namespace RSFMEdia.StatisProCardFactory
 {
     public partial class Index : System.Web.UI.Page
     {
+        #region Properties
+        public string ErrorMessage
+        {
+            get { return ViewState["ErrorMessage"].ToString(); }
+            set { ViewState["ErrorMessage"] = value; }
+        }
+        #endregion
+
         #region Page Events
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -78,18 +86,29 @@ namespace RSFMEdia.StatisProCardFactory
         #region Control Events
         protected void btnUpload_Click(object sender, EventArgs e)
         {
-            // verify that files were uploaded
-            // TODO: don't forget to check for all three files
-            //if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
-            if (!fuBatting.HasFiles)
+            // verify that input was complete/correct
+            if (!InputIsValid())
             {
                 // display error to user
-                litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning("** All three .csv files are required in order to generate player/pitcher cards. **");
+                litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning(string.Format("** Error processing uploaded files: {0} **", ErrorMessage));
             }
             else
             {
                 try
                 {
+                    // load processing info
+                    var processingData = new CardProcessingConfiguration();
+                    processingData.League = ddlLeague.SelectedValue;
+                    processingData.Year = ddlYear.SelectedValue;
+                    processingData.TeamName = ddlTeam.SelectedItem.ToString();
+                    processingData.TeamAbbrev = ddlTeam.SelectedValue;
+                    processingData.Manager = tbManager.Text.Trim();
+                    processingData.Wins = Convert.ToInt32(tbWins.Text);
+                    processingData.Losses = Convert.ToInt32(tbLosses.Text);
+                    processingData.UseTZ = cbUseTZ.Checked ? true : false;
+                    processingData.UseUBR = cbUseUBR.Checked ? true : false;
+                    processingData.UseUZR = cbUseUZR.Checked ? true : false;
+
                     // process batting upload
                     if (fuBatting.HasFile)
                     {
@@ -100,14 +119,16 @@ namespace RSFMEdia.StatisProCardFactory
                         // rename file and save it to the server
                         fuBatting.SaveAs(battingFullPath);
 
-                        // read the batting data
+                        // TEST:read the batting data
                         var csvEngine = new FileHelperEngine<BattingData>();
                         var batters = csvEngine.ReadFileAsList(battingFullPath);
                         var batter = batters.FirstOrDefault(b => b.Age >= 25);
                         lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
 
                         // process the batting data and create player cards
-                        
+                        CardFactory card = new CardFactory();
+                        var x = card.CreateBatterCards(batters, processingData);
+                        litMessage.Text = x.End.ToShortTimeString();
                     }
 
                     // process pitching upload
@@ -120,7 +141,7 @@ namespace RSFMEdia.StatisProCardFactory
                         // rename file and save it to the server
                         fuPitching.SaveAs(pitchingFullPath);
 
-                        // read the pitching data
+                        // TEST:read the pitching data
                         var csvEngine = new FileHelperEngine<PitchingData>();
                         var pitchers = csvEngine.ReadFileAsList(pitchingFullPath);
                         var pitcher = pitchers.FirstOrDefault(b => b.Age >= 31);
@@ -137,7 +158,7 @@ namespace RSFMEdia.StatisProCardFactory
                         // rename file and save it to the server
                         fuFielding.SaveAs(fieldingFullPath);
 
-                        // read the fielding data
+                        // TEST:read the fielding data
                         var csvEngine = new FileHelperEngine<FieldingData>();
                         var fielders = csvEngine.ReadFileAsList(fieldingFullPath);
                         var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
@@ -149,6 +170,18 @@ namespace RSFMEdia.StatisProCardFactory
                     litMessage.Text = MarkupFactory.BuildBootstrapAlertWarning(string.Format("** Error uploading data: {0} **", why.Message));
                 }
             }
+        }
+
+        private bool InputIsValid()
+        {
+            // TODO: don't forget to check for all three files
+            //if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
+            if (!fuBatting.HasFiles)
+            {
+                ErrorMessage = "** All three .csv files are required in order to generate player/pitcher cards. **";
+                return false;
+            }
+            return true;
         }
         #endregion
 
