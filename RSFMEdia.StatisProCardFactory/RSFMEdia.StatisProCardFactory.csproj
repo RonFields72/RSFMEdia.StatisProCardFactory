@@ -283,13 +283,12 @@
     <Compile Include="Models\CatcherArm.cs" />
     <Compile Include="Models\MLBTeam.cs" />
     <Compile Include="Models\NormalizedPlayer.cs" />
+    <Compile Include="Models\OBRLookup.cs" />
     <Compile Include="Models\OutfieldArm.cs" />
     <Compile Include="Models\PBLookup.cs" />
-    <Compile Include="Models\PitcherControl.cs" />
     <Compile Include="Models\PitcherFieldingData.cs" />
     <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />
-    <Compile Include="Models\PitcherFielding.cs" />
     <Compile Include="Models\BattingData.cs" />
     <Compile Include="Models\PlayerCard.cs" />
     <Compile Include="Models\FieldingData.cs" />

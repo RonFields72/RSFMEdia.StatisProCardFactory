@@ -52,7 +52,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             new MLBTeam {Name="Milwaukee Braves", Abbreviation="MIB", ShortName="Braves"},
             new MLBTeam {Name="Montreal Expos", Abbreviation="MON", ShortName="Expos"},
             new MLBTeam {Name="New York Giants", Abbreviation="NYG", ShortName="Giants"},
-             new MLBTeam {Name="Seattle Pilots", Abbreviation="SEP", ShortName="Pilots"},
+            new MLBTeam {Name="Seattle Pilots", Abbreviation="SEP", ShortName="Pilots"},
             new MLBTeam {Name="St. Louis Browns", Abbreviation="STB", ShortName="Browns"},
             new MLBTeam {Name="Washington Senators", Abbreviation="WSS", ShortName="Senators"}
         };
@@ -100,7 +100,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     position = "RF";
                     break;
             }
-
             return position;
         }
 
@@ -142,7 +141,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     position = "Designated Hitter";
                     break;
             }
-
             return position;
         }
     }

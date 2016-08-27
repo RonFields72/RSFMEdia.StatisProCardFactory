@@ -64,3 +64,39 @@ VALUES ( '1984','NL','2-6',4.69 );
 
 INSERT INTO SPCF_PBLookup (Year, League, PB, HighestERA)
 VALUES ( '1984','NL','2-5',9999 );
+
+
+OBR Formulas
+---------------------------------------------------------------------------------------------------
+1) Runs / Hits + BB + HBP
+	If > 0.4 OBR = A
+	If > 0.375 OBR = B
+	If > .250 OBR = C
+	If > .225 OBR = D
+	Else OBR = E
+
+2) Use UBR and associated table:
+	Excellent +6 (A)
+	Great +4 (B)
+	Above Average +1.5 (B)
+	Average 0 (C)
+	Below Average -1.5 (D)
+	Poor -4 (E)
+	Awful -6 (E)
+
+3) Add Runs scored + Stolen bases and use following table
+	sb+runs=OBR
+	0=E
+	25=D
+	50=C
+	100=B
+	120=A
+
+SP Formula
+---------------------------------------------------------------------------------------------------
+Normalize the player steals over a full 162 game season then compute:
+If SB >= 30 SP=A
+If SB between 20 and 29 SP=B
+If SB between 10 and 19 SP=C
+If SB between 1 and 9 SP=D
+If SB = 0 then SP=E

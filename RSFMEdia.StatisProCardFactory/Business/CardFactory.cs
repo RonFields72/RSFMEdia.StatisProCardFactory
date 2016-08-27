@@ -22,7 +22,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 PlayerCard newBatterCard = new PlayerCard();
                 FormulaFactory formulas = new FormulaFactory();
 
-                // set statistics
+                // set statistics (placed at bottom of the card)
                 newBatterCard.InfoAtBats = batter.AB.ToString();
                 newBatterCard.InfoHits = batter.H.ToString();
                 newBatterCard.InfoDoubles = batter.Doubles.ToString();
@@ -46,21 +46,39 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 // positions and ratings
                 // newBatterCard.Fielding = 
 
+                // OBR
+                newBatterCard.OBR = formulas.
 
                 // BD Ratings
-                newBatterCard.BDRating = formulas.CalculateClassicBDRating(batter);
-                var expandedBD = formulas.CalculateBDRatings(batter);
+                newBatterCard.BDRating = formulas.CalcClassicBDRating(batter);
+                var expandedBD = formulas.CalcBDRatings(batter);
+                newBatterCard.BDDouble = expandedBD.DoublesToCard;
+                newBatterCard.BDTriple = expandedBD.TriplesToCard;
+                newBatterCard.BDHomerun = expandedBD.HomerunsToCard;
+                newBatterCard.NumberBD2B = expandedBD.NumberBD2Bs;
+                newBatterCard.NumberBD3B = expandedBD.NumberBD3Bs;
+                newBatterCard.NumberBDHR = expandedBD.NumberBDHRs;
 
 
+                // 
+
+                // count the batter card
+                process.NumberOfBatterCardsCreated += 1;
 
                 //newBatterCard.Cht = 
+
+            
             }
 
-            // end the process
-            process.End = DateTime.Now;
+            // produce PDF version of the cards
 
+
+            
             // return the analysis
+            process.End = DateTime.Now;
             return process;
         }
     }
+
+    public 
 }
