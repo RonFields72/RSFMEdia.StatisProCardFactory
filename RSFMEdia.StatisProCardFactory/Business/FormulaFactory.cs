@@ -217,7 +217,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             return obrRating;
         }
 
-        public string CalcOBRViaDb(BattingData playerData)
+        public string CalcOBRUsingRunsAndSBs(BattingData playerData)
         {
             // add runs and stolen bases
             var runsPlusStolenBases = playerData.R + playerData.SB;  
@@ -236,11 +236,15 @@ namespace RSFMEdia.StatisProCardFactory.Business
             // TODO: determine how to optionally import UBR from FanGraphs
             // this is only available for modern seasons
             // extract UBR
-            //playerData.UBR;
+            // decimal ubrRating = (decimal) playerData.UBR;
+            string obrRating = string.Empty;
             var ubrRating = 5;
-            if (ubrRating >= 6) return SPCFConstants.OBR_RATING_A;
-            if (ubrRating >= 4) return SPCFConstants.OBR_RATING_B;
-
+            if (ubrRating >= 4) obrRating = SPCFConstants.OBR_RATING_A;
+            if (ubrRating >= 1.5) obrRating = SPCFConstants.OBR_RATING_B;
+            if (ubrRating >= -1.5) obrRating = SPCFConstants.OBR_RATING_C;
+            if (ubrRating >= -4) obrRating = SPCFConstants.OBR_RATING_D;
+            if (ubrRating >= -6) obrRating = SPCFConstants.OBR_RATING_E;
+            return obrRating;
         }
         //public string CalculateFieldingRatings(string playerName, List<FieldingData> fielderData)
         //{

@@ -80,5 +80,5 @@ namespace RSFMEdia.StatisProCardFactory.Business
         }
     }
 
-    public 
+     
 }
