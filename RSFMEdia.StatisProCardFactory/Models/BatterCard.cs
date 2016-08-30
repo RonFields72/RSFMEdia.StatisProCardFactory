@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RSFMEdia.StatisProCardFactory.Models
 {
-    public class PlayerCard
+    public class BatterCard
     {
         public string Year { get; set; }
         public string Team { get; set; }

@@ -277,10 +277,12 @@
     <Compile Include="Lookups.aspx.designer.cs">
       <DependentUpon>Lookups.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\BatterCardAnalysis.cs" />
+    <Compile Include="Models\CardAnalysis.cs" />
     <Compile Include="Models\BDRatings.cs" />
     <Compile Include="Models\CardProcessingConfiguration.cs" />
     <Compile Include="Models\CatcherArm.cs" />
+    <Compile Include="Models\BatterCardPlacement.cs" />
+    <Compile Include="Models\INJRating.cs" />
     <Compile Include="Models\MLBTeam.cs" />
     <Compile Include="Models\NormalizedPlayer.cs" />
     <Compile Include="Models\OBRLookup.cs" />
@@ -290,11 +292,13 @@
     <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />
     <Compile Include="Models\BattingData.cs" />
-    <Compile Include="Models\PlayerCard.cs" />
+    <Compile Include="Models\BatterCard.cs" />
     <Compile Include="Models\FieldingData.cs" />
     <Compile Include="Models\SACLookup.cs" />
+    <Compile Include="Models\SACRating.cs" />
     <Compile Include="Models\SPLookup.cs" />
     <Compile Include="Models\SPNumber.cs" />
+    <Compile Include="Models\SPRating.cs" />
     <Compile Include="PBSetup.aspx.cs">
       <DependentUpon>PBSetup.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

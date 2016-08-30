@@ -9,6 +9,252 @@ namespace RSFMEdia.StatisProCardFactory.Business
 {
     public class FormulaFactory
     {
+        #region Properties
+        public readonly string BATS_LEFT = "L";
+        public readonly string BATS_RIGHT = "R";
+        public readonly string BATS_SWITCH = "S";
+        #endregion
+
+        #region Helper Methods
+        /// <summary>
+        /// Removes special characters from the player name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public string ParsePlayerName(string name)
+        {
+            // remove *, # from name
+            var parsedName = name.Trim(new Char[] { '*', '#' });
+            return parsedName;
+        }
+
+        /// <summary>
+        /// Calculates the batting hand.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns>R-right, L-left or S-switch</returns>
+        public string CalculateBattingHand(BattingData playerData)
+        {
+            // init 
+            string battingHand = string.Empty;
+
+            // parse last character from players name
+            var lastCharacter = playerData.Name.Trim();
+            lastCharacter = lastCharacter.Substring(lastCharacter.Length - 1);
+
+            // If last character is an asterisk
+            if (lastCharacter == "*")
+            {
+                battingHand = "L";
+            }
+            else if (lastCharacter == "#")
+            {
+                battingHand = "S";
+            }
+            else
+            {
+                battingHand = "R";
+            }
+            return battingHand;
+        }
+        #endregion
+
+        #region OBR Rating
+        /// <summary>
+        /// Calcs the OBR for a batter using a scoring percentage formula.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns></returns>
+        public string CalcOBR(BattingData playerData)
+        {
+            // init
+            string obrRating = string.Empty;
+
+            // compute times on base as (Hits + BB + HBP)  
+            var timesOnBase = playerData.H + playerData.BB + playerData.HBP;
+            if (timesOnBase > 0)
+            {
+                // compute scoring percentage and compare and assign rating
+                var scoringPct = (double) playerData.R / (double) timesOnBase;
+                if (scoringPct >= 0.4)
+                {
+                    obrRating = SPCFConstants.OBR_RATING_A;
+                }
+                else if (scoringPct >= .375)
+                {
+                    obrRating = SPCFConstants.OBR_RATING_B;
+                }
+                else if (scoringPct >= .250)
+                {
+                    obrRating = SPCFConstants.OBR_RATING_C;
+                }
+                else if (scoringPct >= .225)
+                {
+                    obrRating = SPCFConstants.OBR_RATING_D;
+                }
+                else
+                {
+                    obrRating = SPCFConstants.OBR_RATING_E;
+                }
+            }
+            else
+            {
+                obrRating = SPCFConstants.OBR_RATING_E;
+            }
+            return obrRating;
+        }
+
+        /// <summary>
+        /// Calcs the OBR for a batter using runs and stolen bases total.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns></returns>
+        public string CalcOBRUsingRunsAndSBs(BattingData playerData)
+        {
+            // add runs and stolen bases
+            var runsPlusStolenBases = playerData.R + playerData.SB;
+            using (var context = new SQLiteContext())
+            {
+                var obr = context.OBRLookups
+                    .Where(ol => ol.RunsPlusStolenBases <= runsPlusStolenBases)
+                    .OrderByDescending(ol => ol.RunsPlusStolenBases)
+                    .FirstOrDefault();
+                return obr.OBR.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Calcs the OBR for a batter using UBR from FanGraphs.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns></returns>
+        public string CalcOBRUsingUBR(BattingData playerData)
+        {
+            // TODO: determine how to optionally import UBR from FanGraphs
+            // this is only available for modern seasons
+            // extract UBR
+            // decimal ubrRating = (decimal) playerData.UBR;
+            string obrRating = string.Empty;
+
+            // return the OBR based on the UBR (ulitimate base running) rating
+            var ubrRating = 5;
+            if (ubrRating >= 4) obrRating = SPCFConstants.OBR_RATING_A;
+            if (ubrRating >= 1.5) obrRating = SPCFConstants.OBR_RATING_B;
+            if (ubrRating >= -1.5) obrRating = SPCFConstants.OBR_RATING_C;
+            if (ubrRating >= -4) obrRating = SPCFConstants.OBR_RATING_D;
+            if (ubrRating >= -6) obrRating = SPCFConstants.OBR_RATING_E;
+            return obrRating;
+        }
+        #endregion
+
+        #region SP Rating
+        /// <summary>
+        /// Calcs the SP rating using a database table.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <param name="configSettings">The config settings.</param>
+        /// <returns></returns>
+        public string CalcSPRating(BattingData playerData, CardProcessingConfiguration configSettings)
+        {
+            // normalize player stolen base totals to a full season
+            var totalGames = configSettings.Wins + configSettings.Losses;
+            decimal seasonFactor = (decimal) totalGames / (decimal) playerData.G;
+            var normalizedSB = Convert.ToInt32(seasonFactor * playerData.SB);
+
+            using (var context = new SQLiteContext())
+            {
+                var rating = context.SPLookups
+                    .Where(s => s.StolenBases <= normalizedSB)
+                    .OrderByDescending(s => s.StolenBases)
+                    .FirstOrDefault();
+                return rating.SP.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Calcs the SP rating using a local collection that serves as a lookup table.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <param name="configSettings">The config settings.</param>
+        /// <returns></returns>
+        public string CalcSPRatingLocal(BattingData playerData, CardProcessingConfiguration configSettings)
+        {
+            // normalize player stolen base totals to a full season
+            var totalGames = configSettings.Wins + configSettings.Losses;
+            decimal seasonFactor = (decimal) totalGames / (decimal) playerData.G;
+            var normalizedSB = Convert.ToInt32(seasonFactor * playerData.SB);
+
+            StatisProData statisPro = new StatisProData();
+            var spRating = StatisProData.SPRatings.Where(r => r.StolenBases <= normalizedSB)
+                .OrderByDescending(r => r.StolenBases)
+                .FirstOrDefault();
+            return spRating.SP.Trim();
+        }
+        #endregion
+
+        #region SAC Rating
+        /// <summary>
+        /// Calcs the SAC rating using a database table.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <param name="configSettings">The config settings.</param>
+        /// <returns></returns>
+        public string CalcSACRating(BattingData playerData, CardProcessingConfiguration configSettings)
+        {
+            // normalize sacrifices to a full season
+            var totalGames = configSettings.Wins + configSettings.Losses;
+            decimal seasonFactor = (decimal) totalGames / (decimal) playerData.G;
+            var normalizedSH = Convert.ToInt32(seasonFactor * playerData.SH);
+
+            using (var context = new SQLiteContext())
+            {
+                var rating = context.SACLookups
+                    .Where(sac => sac.SacrificeHits <= normalizedSH)
+                    .OrderByDescending(sac => sac.SacrificeHits)
+                    .FirstOrDefault();
+                return rating.SAC.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Calcs the SAC rating using a local collection that serves as a lookup table.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <param name="configSettings">The config settings.</param>
+        /// <returns></returns>
+        public string CalcSACRatingLocal(BattingData playerData, CardProcessingConfiguration configSettings)
+        {
+            // normalize sacrifices to a full season
+            var totalGames = configSettings.Wins + configSettings.Losses;
+            decimal seasonFactor = (decimal) totalGames / (decimal) playerData.G;
+            var normalizedSH = Convert.ToInt32(seasonFactor * playerData.SH);
+
+            StatisProData statisPro = new StatisProData();
+            var sacRating = StatisProData.SACRatings.Where(sac => sac.SacrificeHits <= normalizedSH)
+                .OrderByDescending(sac => sac.SacrificeHits)
+                .FirstOrDefault();
+            return sacRating.SAC.Trim();
+        }
+        #endregion
+
+        #region INJ Rating
+        /// <summary>
+        /// Calcs the INJ rating.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns></returns>
+        public string CalcINJRating(BattingData playerData)
+        {
+            StatisProData statisPro = new StatisProData();
+            var injRating = StatisProData.INJRatings.Where(inj => inj.GamesPlayed <= playerData.G)
+                .OrderByDescending(inj => inj.GamesPlayed)
+                .FirstOrDefault();
+            return injRating.INJ.Trim();
+        }
+        
+        #endregion
+
+        #region BD Ratings
         // 2010 Ichiro (Example)
         // 2B(34), 3B(8), HR(8), H(242)
         // EBH(2B + 3B + HR) = 50
@@ -21,6 +267,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
         // 2B = 11 - 21(11, 12, 13, 14, 15, 16, 17, 18, 21) 9
         // 3B = 22 - 23(22, 23) 2
         // HR = 24 - 25(24, 25) 2
+        /// <summary>
+        /// Calcs the expanded BD ratings that were introduced in the third edition of Statis-Pro Baseball.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <returns>BDRatings with both ranges and the actual number of 2Bs,3Bs and HR's alloted.</returns>
         public BDRatings CalcBDRatings(BattingData playerData)
         {
             // create rating object
@@ -124,43 +375,35 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
             return "0";
         }
+        #endregion
 
-        public int CalculateHitAndRunRating(PlayerCard playerCard)
+        
+
+        #region HR Rating
+        /// <summary>
+        /// Calculates the hit and run rating based on the number of strikeouts alloted to the batter card.
+        /// </summary>
+        /// <param name="playerCard">The player card.</param>
+        /// <returns></returns>
+        public int CalculateHitAndRunRating(BatterCard playerCard)
         {
             // based on the # of strikeouts on the player card
             // TODO: if player card has no strikeout numbers then H&R=2, if 1 then H&R=1 else 0
             return 0;
         }
+        #endregion
 
-        public string CalculateBattingHand(BattingData playerData)
-        {
-            // init 
-            string battingHand = string.Empty;
-
-            // parse last character from players name
-            var lastCharacter = playerData.Name.Trim();
-            lastCharacter = lastCharacter.Substring(lastCharacter.Length - 1);
-
-            // If last character is an asterisk
-            if (lastCharacter == "*")
-            {
-                battingHand = "L";
-            }
-            else if (lastCharacter == "#")
-            {
-                battingHand = "S";
-            }
-            else
-            {
-                battingHand = "R";
-            }
-            return battingHand;
-        }
-
-        public string CalculateCht(BattingData playerData, PlayerCard thePlayerCard)
+        #region Cht Rating
+        /// <summary>
+        /// Calculates the CHT based on better handedness and HR's.
+        /// </summary>
+        /// <param name="playerData">The player data.</param>
+        /// <param name="thePlayerCard">The player card.</param>
+        /// <returns></returns>
+        public string CalculateCht(BattingData playerData, BatterCard thePlayerCard)
         {
             // account for pitchers
-            if (playerData.Pos == "P") return "P";
+            if (playerData.Pos == "P" || playerData.Pos == "p") return "P";
 
             // get batting handedness
             var hand = CalculateBattingHand(playerData);
@@ -170,82 +413,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
             return "T";
         }
+        #endregion
 
-        public string ParsePlayerName(string name)
-        {
-            // remove *, # from name
-            var parsedName = name.Trim(new Char[] { '*', '#' });
-            return parsedName;
-        }
+        #region CD Rating(s)
+        // TODO: create a formula or formulas for calculating CD by position
 
-        public string CalcOBR(BattingData playerData)
-        {
-            // init
-            string obrRating = string.Empty;
-
-            // compute times on base as (Hits + BB + HBP)  
-            var timesOnBase = playerData.H + playerData.BB + playerData.HBP;
-            if (timesOnBase > 0)
-            {
-                // compute scoring percentage and compare and assign rating
-                var scoringPct = (double) playerData.R / (double) timesOnBase;
-                if (scoringPct >= 0.4)
-                {
-                    obrRating = SPCFConstants.OBR_RATING_A;
-                }
-                else if (scoringPct >= .375)
-                {
-                    obrRating = SPCFConstants.OBR_RATING_B;
-                }
-                else if (scoringPct >= .250)
-                {
-                    obrRating = SPCFConstants.OBR_RATING_C;
-                }
-                else if (scoringPct >= .225)
-                {
-                    obrRating = SPCFConstants.OBR_RATING_D;
-                }
-                else
-                {
-                    obrRating = SPCFConstants.OBR_RATING_E;
-                }
-            }
-            else
-            {
-                obrRating = SPCFConstants.OBR_RATING_E;
-            }
-            return obrRating;
-        }
-
-        public string CalcOBRUsingRunsAndSBs(BattingData playerData)
-        {
-            // add runs and stolen bases
-            var runsPlusStolenBases = playerData.R + playerData.SB;  
-            using (var context = new SQLiteContext())
-            {
-                var obr = context.OBRLookups
-                    .Where(ol => ol.RunsPlusStolenBases <= runsPlusStolenBases)
-                    .OrderByDescending(ol => ol.RunsPlusStolenBases)
-                    .FirstOrDefault();
-                return obr.OBR.Trim();
-            }
-        }
-
-        public string CalcOBRUsingUBR(BattingData playerData)
-        {
-            // TODO: determine how to optionally import UBR from FanGraphs
-            // this is only available for modern seasons
-            // extract UBR
-            // decimal ubrRating = (decimal) playerData.UBR;
-            string obrRating = string.Empty;
-            var ubrRating = 5;
-            if (ubrRating >= 4) obrRating = SPCFConstants.OBR_RATING_A;
-            if (ubrRating >= 1.5) obrRating = SPCFConstants.OBR_RATING_B;
-            if (ubrRating >= -1.5) obrRating = SPCFConstants.OBR_RATING_C;
-            if (ubrRating >= -4) obrRating = SPCFConstants.OBR_RATING_D;
-            if (ubrRating >= -6) obrRating = SPCFConstants.OBR_RATING_E;
-            return obrRating;
-        }
         //public string CalculateFieldingRatings(string playerName, List<FieldingData> fielderData)
         //{
         //    // get only fielding data for the current player
@@ -257,5 +429,62 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
         //    }
         //}
+        #endregion
+
+        #region Placement
+        public BatterCardPlacement PlaceHitsOnCard(BattingData playerData)
+        {
+            // get batter handedness
+            string battingHand = CalculateBattingHand(playerData);
+
+            // create evaluation factor (EF=(AB+HBP+BB)/128)
+            var evalFactor = Math.Round((decimal) (playerData.AB + playerData.HBP + playerData.BB) / 128, 1);
+
+            // calculate the number of hits of each kind that need to go on the card (# of hit type divided by the eval factor)
+            // singles (subtract 11 from the total to account for pitchers)
+            var numberOf1B = playerData.H - playerData.Doubles - playerData.Triples - playerData.HR;
+            var numberOf1BToCard = Math.Round((decimal) numberOf1B / evalFactor, 1) - 11;
+
+            // doubles/triples/HR
+            var numberOf2BToCard = Math.Round((decimal) playerData.Doubles / evalFactor, 1);
+            var numberOf3BToCard = Math.Round((decimal) playerData.Triples / evalFactor, 1);
+            var numberOfHRToCard = Math.Round((decimal) playerData.HR / evalFactor, 1);
+
+            // walks (subtract 7 from total to account for pitchers)
+            var numberOfBBToCard = Math.Round((decimal) playerData.BB / evalFactor, 1) - 7;
+
+            // strikeouts (subtract 11 from total to account for pitchers)
+            var numberOfKToCard = Math.Round((decimal) playerData.SO / evalFactor, 1) - 11;
+
+            // adjust number of HR's by one if classic BD rating is 2
+            string classicBD = CalcClassicBDRating(playerData);
+            if (classicBD == "2")
+            {
+                numberOfHRToCard = numberOfHRToCard - 1;
+            }
+
+            // place hits on card
+            var singles = Math.Round(numberOf1BToCard, 0);
+            var doubles = Math.Round(numberOf2BToCard, 0);
+            var triples = Math.Round(numberOf3BToCard);
+            var hr = Math.Round(numberOfHRToCard);
+            var bb = Math.Round(numberOfBBToCard);
+            var k = Math.Round(numberOfKToCard, 0);
+
+            // create ranges
+            if (singles > 1)
+            {
+                // TODO: how to determine L,R,S distribution
+                // todo: FORMULA FOR IBF's never more than 2 
+            }
+            else
+            {
+
+            }
+
+            BatterCardPlacement cardTable = new BatterCardPlacement();
+            return cardTable;
+        }
+        #endregion
     }
 }

@@ -90,5 +90,35 @@ namespace RSFMEdia.StatisProCardFactory.Business
             new CatcherArm {Rating="TB", Description="Average arm"},
             new CatcherArm {Rating="TC", Description="Poor arm"}
         };
+
+        public static List<SPRating> SPRatings = new List<SPRating>()
+        {
+            new SPRating { StolenBases = 30, SP = "A" },
+            new SPRating { StolenBases = 20, SP = "B" },
+            new SPRating { StolenBases = 10, SP = "C" },
+            new SPRating { StolenBases = 1, SP = "D" },
+            new SPRating { StolenBases = 0, SP = "E" }
+        };
+
+        public static List<SACRating> SACRatings = new List<SACRating>()
+        {
+            new SACRating { SacrificeHits = 8, SAC = "AA" },
+            new SACRating { SacrificeHits = 5, SAC = "BB" },
+            new SACRating { SacrificeHits = 2, SAC= "CC" },
+            new SACRating { SacrificeHits = 0, SAC = "DD" }
+        };
+
+        public static List<INJRating> INJRatings = new List<INJRating>()
+        {
+            new INJRating { GamesPlayed = 162, INJ = "0" },
+            new INJRating { GamesPlayed = 161, INJ = "1" },
+            new INJRating { GamesPlayed = 159, INJ = "2" },
+            new INJRating { GamesPlayed = 157, INJ = "3" },
+            new INJRating { GamesPlayed = 152, INJ = "4" },
+            new INJRating { GamesPlayed = 142, INJ = "5" },
+            new INJRating { GamesPlayed = 132, INJ = "6" },
+            new INJRating { GamesPlayed = 81, INJ = "7" },
+            new INJRating { GamesPlayed = 0, INJ = "8" },
+        };
     }
 }
