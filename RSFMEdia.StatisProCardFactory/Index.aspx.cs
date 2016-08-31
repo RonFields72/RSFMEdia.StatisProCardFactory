@@ -126,8 +126,8 @@ namespace RSFMEdia.StatisProCardFactory
                         lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
 
                         // process the batting data and create player cards
-                        CardFactory card = new CardFactory();
-                        var x = card.CreateBatterCards(batters, processingData);
+                        CardFactory card = new CardFactory(processingData);
+                        var x = card.CreateBatterCards(batters);
                         litMessage.Text = x.End.ToShortTimeString();
                     }
 

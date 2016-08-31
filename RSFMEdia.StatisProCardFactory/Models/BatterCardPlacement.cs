@@ -20,7 +20,17 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public string W { get; set; }
         public string HBP { get; set; }
         public string Out { get; set; }
-        public string Cht { get; set; }
-        public string HAndR { get; set; }
+        public int Number1BF { get; set; }
+        public int Number1B7 { get; set; }
+        public int Number1B8 { get; set; }
+        public int Number1B9 { get; set; }
+        public int Number2B7 { get; set; }
+        public int Number2B8 { get; set; }
+        public int Number2B9 { get; set; }
+        public int Number3B8 { get; set; }
+        public int NumberHR { get; set; }
+        public int NumberK { get; set; }
+        public int NumberW { get; set; }
+        public int NumberHBP { get; set; }
     }
 }

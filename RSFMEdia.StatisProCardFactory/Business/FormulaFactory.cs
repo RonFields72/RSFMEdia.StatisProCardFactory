@@ -69,6 +69,9 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 return 0;
             }
 
+            // get normalized number of stolen bases
+            var normalizedSB = NormalizeStat(162, playerData.G, playerData.SB);
+
             // if only two/three singles then only one can be infield single
             if (numberOfSinglesOnCard == 2 || numberOfSinglesOnCard == 3)
             {
@@ -81,11 +84,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
             else
             {
                 // determine possible number of infield singles based on steals
-                if (playerData.SB >= 17)
+                if (playerData.SB >= 20)
                 {
                     numberOfIBFs = 2;
                 }
-                else if (playerData.SB >= 9)
+                else if (playerData.SB >= 12)
                 {
                     numberOfIBFs = 1;
                 }
@@ -96,7 +99,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             }
             return numberOfIBFs;
         }
-
+        
         public int NormalizeStat(int totalGames, int actualGames, int statistic)
         {
             // normalize stat to a full team season
@@ -152,6 +155,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
         /// <summary>
         /// Calcs the OBR for a batter using runs and stolen bases total.
+        /// The lookup is stored in a database.
         /// </summary>
         /// <param name="playerData">The player data.</param>
         /// <returns></returns>
@@ -297,7 +301,26 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 .FirstOrDefault();
             return injRating.INJ.Trim();
         }
-        
+        #endregion
+
+        #region Remarks
+        public string CalcRemarks(BattingData playerData, CardProcessingConfiguration configSettings)
+        {
+            // normalize stolen bases
+            string remarks = string.Empty;
+            var normalizedSB = NormalizeStat(configSettings.Wins + configSettings.Losses, playerData.G, playerData.SB);
+
+            // generate special remarks for players with hig stolen base totals
+            if (normalizedSB >= 99)
+            {
+                remarks = "Steals 2nd after any single/walk on own card";
+            }
+            else if (normalizedSB >= 75)
+            {
+                remarks = "Steals 2nd after any single on own card";
+            }
+            return remarks;
+        }
         #endregion
 
         #region BD Ratings
@@ -413,29 +436,45 @@ namespace RSFMEdia.StatisProCardFactory.Business
         /// </summary>
         /// <param name="playerData">The player batting data.</param>
         /// <returns></returns>
-        public string CalcClassicBDRating(BattingData playerData)
+        public string CalcClassicBDRating(BattingData playerData, CardProcessingConfiguration configSettings)
         {
-            if (playerData.HR >= 30) return "2";
+            // normalize the HR total
+            var normalizedHR = NormalizeStat(configSettings.Wins + configSettings.Losses, playerData.G, playerData.HR);
+
+            // calculate BD based on HRs
+            if (normalizedHR >= 30) return "2";
             
-            if (playerData.HR >= 20) return "1";
+            if (normalizedHR >= 20) return "1";
 
             return "0";
         }
         #endregion
-
         
-
         #region HR Rating
         /// <summary>
         /// Calculates the hit and run rating based on the number of strikeouts alloted to the batter card.
         /// </summary>
         /// <param name="playerCard">The player card.</param>
         /// <returns></returns>
-        public int CalculateHitAndRunRating(BatterCard playerCard)
+        public string CalculateHitAndRunRating(int numberOfKsOnCard)
         {
-            // based on the # of strikeouts on the player card
-            // TODO: if player card has no strikeout numbers then H&R=2, if 1 then H&R=1 else 0
-            return 0;
+            // init
+            string hitAndRunRating = string.Empty;
+
+            // if player card has no strikeout numbers then H&R=2, if 1 then H&R=1 else 0
+            if (numberOfKsOnCard == 0)
+            {
+                hitAndRunRating = "2";
+            }
+            else if (numberOfKsOnCard == 1)
+            {
+                hitAndRunRating = "1";
+            }
+            else
+            {
+                hitAndRunRating = "0";
+            }
+            return hitAndRunRating;
         }
         #endregion
 
@@ -446,18 +485,25 @@ namespace RSFMEdia.StatisProCardFactory.Business
         /// <param name="playerData">The player data.</param>
         /// <param name="thePlayerCard">The player card.</param>
         /// <returns></returns>
-        public string CalculateCht(BattingData playerData, BatterCard thePlayerCard)
+        public string CalculateCht(BattingData playerData, int numberOfHRsOnCard, CardProcessingConfiguration configSettings)
         {
             // account for pitchers
             if (playerData.Pos == "P" || playerData.Pos == "p") return "P";
 
-            // get batting handedness
+            // get batting handedness for regular batter
             var hand = CalculateBattingHand(playerData);
 
+            // normalize HR total
+            var normalizedHR = NormalizeStat(configSettings.Wins + configSettings.Losses, playerData.G, playerData.HR);
+
             // if four HR numbers on card OR if the batter hit at least 15 HR's then the classification is "P"ower
+            string normalOrPower = "N";
+            if (numberOfHRsOnCard >= 4 || normalizedHR >= 15)
+            {
+                normalOrPower = "P";
+            }
 
-
-            return "T";
+            return string.Format("{0}{1}", hand, normalOrPower);
         }
         #endregion
 
@@ -478,13 +524,16 @@ namespace RSFMEdia.StatisProCardFactory.Business
         #endregion
 
         #region Placement
-        public BatterCardPlacement PlaceHitsOnCard(BattingData playerData)
+        public BatterCardPlacement PlaceHitsOnCard(BattingData playerData, CardProcessingConfiguration configSettings)
         {
+            // init 
+            BatterCardPlacement placement = new BatterCardPlacement();
+
             // get batter handedness
             string battingHand = CalculateBattingHand(playerData);
 
             // create evaluation factor (EF=(AB+HBP+BB)/128)
-            var evalFactor = Math.Round((decimal) (playerData.AB + playerData.HBP + playerData.BB) / 128, 1);
+            var evalFactor = Math.Round((decimal) (playerData.AB + playerData.HBP + playerData.BB) / 128, 2);
 
             // calculate the number of hits of each kind that need to go on the card (# of hit type divided by the eval factor)
             // singles (subtract 11 from the total to account for pitchers)
@@ -502,37 +551,319 @@ namespace RSFMEdia.StatisProCardFactory.Business
             // strikeouts (subtract 11 from total to account for pitchers)
             var numberOfKToCard = Math.Round((decimal) playerData.SO / evalFactor, 1) - 11;
 
-            // adjust number of HR's by one if classic BD rating is 2
-            string classicBD = CalcClassicBDRating(playerData);
+            // hit by pitch
+            var numberOfHBPToCard = Math.Round((decimal) playerData.HBP / evalFactor, 1);
+
+            // adjust number of HR's by one if classic BD rating is 2 (power hitter)
+            string classicBD = CalcClassicBDRating(playerData, configSettings);
             if (classicBD == "2")
             {
                 numberOfHRToCard = numberOfHRToCard - 1;
             }
 
-            // finalize number hits on card and convert to integers
-            var singles = Convert.ToInt32(Math.Round(numberOf1BToCard, 0));
+            // finalize number of hits on card and convert to integers
+            var totalSingles = Convert.ToInt32(Math.Round(numberOf1BToCard, 0));
             var doubles = Convert.ToInt32(Math.Round(numberOf2BToCard, 0));
             var triples = Convert.ToInt32(Math.Round(numberOf3BToCard, 0));
+            placement.Number3B8 = triples;
             var hr = Convert.ToInt32(Math.Round(numberOfHRToCard, 0));
+            placement.NumberHR = hr;
             var bb = Convert.ToInt32(Math.Round(numberOfBBToCard, 0));
+            placement.NumberW = bb;
             var k = Convert.ToInt32(Math.Round(numberOfKToCard, 0));
+            placement.NumberK = k;
+            var hbp = Convert.ToInt32(Math.Round(numberOfHBPToCard, 0));
+            placement.NumberHBP =hbp;
 
-            // create ranges
-            var IBFs = GetNumberOfIBFs(playerData, singles);
-            var nonIBFSingles = singles - IBFs;
+            // parse infield singles and non-infield singles
+            var infieldSingles = GetNumberOfIBFs(playerData, totalSingles);
+            placement.Number1BF = infieldSingles;
+            var singles = totalSingles - infieldSingles;
 
-            if (singles >= 6)
+            // distribute singles and doubles (LF,RF,CF) based on batting handedness
+            var singlesToCard = DistributeSingles(battingHand, singles);
+            placement.Number1B7 = singlesToCard.Single1B7;
+            placement.Number1B8 = singlesToCard.Single1B8;
+            placement.Number1B9 = singlesToCard.Single1B9;
+            var doublesToCard = DistributeDoubles(battingHand, doubles);
+            placement.Number2B7 = doublesToCard.Double2B7;
+            placement.Number2B8 = doublesToCard.Double2B8;
+            placement.Number2B9 = doublesToCard.Double2B9;
+
+            // assign to the card
+            int totalNumbersTaken = 0;
+
+            var card1BF = StatisProData.NumberConversions.Take(infieldSingles);
+            totalNumbersTaken += infieldSingles;
+            var card1B7 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(singlesToCard.Single1B7);
+            totalNumbersTaken += singlesToCard.Single1B7;
+            var card1B8 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(singlesToCard.Single1B8);
+            totalNumbersTaken += singlesToCard.Single1B8;
+            var card1B9 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(singlesToCard.Single1B9);
+            totalNumbersTaken += singlesToCard.Single1B9;
+            var card2B7 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(doublesToCard.Double2B7);
+            totalNumbersTaken += doublesToCard.Double2B7;
+            var card2B8 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(doublesToCard.Double2B8);
+            totalNumbersTaken += doublesToCard.Double2B8;
+            var card2B9 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(doublesToCard.Double2B9);
+            totalNumbersTaken += doublesToCard.Double2B9;
+            var card3B8 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(placement.Number3B8);
+            totalNumbersTaken += placement.Number3B8; 
+            var cardHR = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(placement.NumberHR);
+            totalNumbersTaken += placement.NumberHR;
+            var cardK = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(placement.NumberK);
+            totalNumbersTaken += placement.NumberK;
+            var cardW = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(placement.NumberW);
+            totalNumbersTaken += placement.NumberW;
+            var cardHBP = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(placement.NumberHBP);
+            totalNumbersTaken += placement.NumberHBP;
+            var cardOut = StatisProData.NumberConversions.Skip(totalNumbersTaken);
+
+
+            // ranges to card
+            if (card1BF.Count() > 0)
             {
-                // TODO: how to determine L,R,S distribution
-                // FORMULA FOR IBF's = If 20 or more SB's then possibly 2, if ten or more then 1, otherwise 0
+                var first = card1BF.First();
+                var last = card1BF.Last();
+                placement.Single1BF = card1BF.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
             }
             else
             {
-                // divide singles
+                placement.Single1BF = string.Empty;
+            }
+            if (card1B7.Count() > 0)
+            {
+                var first = card1B7.First();
+                var last = card1B7.Last();
+                placement.Single1B7 = card1B7.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Single1B7 = string.Empty;
+            }
+            if (card1B8.Count() > 0)
+            {
+                var first = card1B8.First();
+                var last = card1B8.Last();
+                placement.Single1B8 = card1B8.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Single1B8 = string.Empty;
+            }
+            if (card1B9.Count() > 0)
+            {
+                var first = card1B9.First();
+                var last = card1B9.Last();
+                placement.Single1B9 = card1B9.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Single1B9 = string.Empty;
+            }
+            if (card2B7.Count() > 0)
+            {
+                var first = card2B7.First();
+                var last = card2B7.Last();
+                placement.Double2B7 = card2B7.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Double2B7 = string.Empty;
+            }
+            if (card2B8.Count() > 0)
+            {
+                var first = card2B8.First();
+                var last = card2B8.Last();
+                placement.Double2B8 = card2B8.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Double2B8 = string.Empty;
+            }
+            if (card2B9.Count() > 0)
+            {
+                var first = card2B9.First();
+                var last = card2B9.Last();
+                placement.Double2B9 = card2B9.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Double2B9 = string.Empty;
+            }
+            if (card3B8.Count() > 0)
+            {
+                var first = card3B8.First();
+                var last = card3B8.Last();
+                placement.Triple3B8 = card3B8.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.Triple3B8 = string.Empty;
+            }
+            if (cardHR.Count() > 0)
+            {
+                var first = cardHR.First();
+                var last = cardHR.Last();
+                placement.HR = cardHR.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.HR = string.Empty;
+            }
+            if (cardK.Count() > 0)
+            {
+                var first = cardK.First();
+                var last = cardK.Last();
+                placement.K = cardK.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.K = string.Empty;
+            }
+            if (cardW.Count() > 0)
+            {
+                var first = cardW.First();
+                var last = cardW.Last();
+                placement.W = cardW.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.W = string.Empty;
+            }
+            if (cardHBP.Count() > 0)
+            {
+                var first = cardHBP.First();
+                var last = cardHBP.Last();
+                placement.HBP = cardHBP.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.HBP = string.Empty;
+            }
+            if (cardOut.Count() > 0)
+            {
+                var first = cardOut.First();
+                var last = cardOut.Last();
+                placement.Out = cardOut.Count() == 1 ? string.Format("{0}", first.Base8Number.ToString()) :
+                    string.Format("{0} - {1}", first.Base8Number.ToString(), last.Base8Number.ToString());
+            }
+            else
+            {
+                placement.W = string.Empty;
             }
 
-            BatterCardPlacement cardTable = new BatterCardPlacement();
-            return cardTable;
+            // return the number placement
+            return placement;
+        }
+
+        /// <summary>
+        /// Distributes the number of singles based on batter handedness.
+        /// </summary>
+        /// <param name="battingHand">The batting hand.</param>
+        /// <param name="singles">The singles.</param>
+        /// <returns>The number of singles allotted to right, center and left.</returns>
+        private SinglesToCard DistributeSingles(string battingHand, int singles)
+        {
+            // init
+            SinglesToCard singleData = new SinglesToCard();
+            decimal numberOfSingles = (decimal) singles;
+
+            // check for no singles
+            if (singles == 0)
+            {
+                singleData.Single1B7 = 0;
+                singleData.Single1B8 = 0;
+                singleData.Single1B9 = 0;
+            }
+            else
+            {
+                // right handed (pull left)
+                if (battingHand == BATS_RIGHT)
+                {
+                    singleData.Single1B7 = Convert.ToInt32(Math.Round((numberOfSingles / 3), 0) + 1);
+                    singleData.Single1B8 = (numberOfSingles - (decimal) singleData.Single1B7) / 2;
+                    singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
+                }
+
+                // left handed (pull right)
+                if (battingHand == BATS_LEFT)
+                {
+                    singleData.Single1B9 = (singles / 3) + 1;
+                    singleData.Single1B8 = (singles - singleData.Single1B9) / 2;
+                    singleData.Single1B7 = singles - (singleData.Single1B9 + singleData.Single1B8);
+                }
+
+                // switch hitter (evenly distributed)
+                if (battingHand == BATS_SWITCH)
+                {
+                    singleData.Single1B7 = (singles / 3) ;
+                    singleData.Single1B8 = (singles - singleData.Single1B7) / 2;
+                    singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
+                }
+            }
+
+            return singleData;
+        }
+
+        /// <summary>
+        /// Distributes the number of doubles based on batter handedness.
+        /// </summary>
+        /// <param name="battingHand">The batting hand.</param>
+        /// <param name="doubles">The doubles.</param>
+        /// <returns>The number of doubles allotted to right, center and left.</returns>
+        private DoublesToCard DistributeDoubles(string battingHand, int doubles)
+        {
+            // init
+            DoublesToCard doubleData = new DoublesToCard();
+
+            // check for no doubles
+            if (doubles == 0)
+            {
+                doubleData.Double2B7 = 0;
+                doubleData.Double2B8 = 0;
+                doubleData.Double2B9 = 0;
+            }
+            else
+            {
+                // right handed (pull left)
+                if (battingHand == BATS_RIGHT)
+                {
+                    doubleData.Double2B7 = (doubles / 3) + 1;
+                    doubleData.Double2B8 = (doubles - doubleData.Double2B7) / 2;
+                    doubleData.Double2B9 = doubles - (doubleData.Double2B7 + doubleData.Double2B8);
+                }
+
+                // left handed (pull right)
+                if (battingHand == BATS_LEFT)
+                {
+                    doubleData.Double2B9 = (doubles / 3) + 1;
+                    doubleData.Double2B8 = (doubles - doubleData.Double2B9) / 2;
+                    doubleData.Double2B7 = doubles - (doubleData.Double2B9 + doubleData.Double2B8);
+                }
+
+                // switch hitter (evenly distributed)
+                if (battingHand == BATS_SWITCH)
+                {
+                    doubleData.Double2B7 = (doubles / 3);
+                    doubleData.Double2B8 = (doubles - doubleData.Double2B7) / 2;
+                    doubleData.Double2B9 = doubles - (doubleData.Double2B7 + doubleData.Double2B8);
+                }
+            }
+
+            return doubleData;
         }
         #endregion
     }

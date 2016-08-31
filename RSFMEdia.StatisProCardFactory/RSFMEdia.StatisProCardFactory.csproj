@@ -165,7 +165,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\rsf-application-UI.css" />
     <Content Include="Content\rsf-bootstrap-custom.css" />
-    <Content Include="Data Examples\DataKey.txt" />
+    <Content Include="assets\DataKey.txt" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -182,9 +182,9 @@
     <Content Include="PBSetup.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Data Examples\padres-batting-example.csv" />
-    <Content Include="Data Examples\padres-fielding-example.csv" />
-    <Content Include="Data Examples\padres-pitching-example.csv" />
+    <Content Include="assets\padres-batting-example.csv" />
+    <Content Include="assets\padres-fielding-example.csv" />
+    <Content Include="assets\padres-pitching-example.csv" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -282,6 +282,7 @@
     <Compile Include="Models\CardProcessingConfiguration.cs" />
     <Compile Include="Models\CatcherArm.cs" />
     <Compile Include="Models\BatterCardPlacement.cs" />
+    <Compile Include="Models\DoublesToCard.cs" />
     <Compile Include="Models\INJRating.cs" />
     <Compile Include="Models\MLBTeam.cs" />
     <Compile Include="Models\OBRLookup.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Models\FieldingData.cs" />
     <Compile Include="Models\SACLookup.cs" />
     <Compile Include="Models\SACRating.cs" />
+    <Compile Include="Models\SinglesToCard.cs" />
     <Compile Include="Models\SPLookup.cs" />
     <Compile Include="Models\SPNumber.cs" />
     <Compile Include="Models\SPRating.cs" />

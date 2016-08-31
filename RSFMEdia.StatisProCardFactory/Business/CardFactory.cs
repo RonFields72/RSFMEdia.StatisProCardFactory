@@ -8,8 +8,19 @@ namespace RSFMEdia.StatisProCardFactory.Business
 {
     public class CardFactory
     {
-        //public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, List<FieldingData> fielderData, CardProcessingConfiguration configSettings)
-            public CardAnalysis CreateBatterCards(List<BattingData> batterData, CardProcessingConfiguration configSettings)
+        #region Properties
+        private CardProcessingConfiguration configSettings;
+        #endregion
+
+        #region Constructors
+        public CardFactory(CardProcessingConfiguration configurationSettings)
+        {
+            this.configSettings = configurationSettings;
+        }
+        #endregion
+
+        // TODO: public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, List<FieldingData> fielderData)
+        public CardAnalysis CreateBatterCards(List<BattingData> batterData)
         {
             // init process statistics
             var process = new CardAnalysis();
@@ -46,8 +57,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 newBatterCard.League = configSettings.League;
                 newBatterCard.Year = configSettings.Year;
 
-                // positions and ratings
+                // fielding positions and ratings
                 // newBatterCard.Fielding = 
+
+                // special remarks
+                newBatterCard.Remarks = formulas.CalcRemarks(batter, configSettings);
 
                 // OBR rating
                 newBatterCard.OBR = formulas.CalcOBR(batter);
@@ -62,24 +76,36 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 newBatterCard.Inj = formulas.CalcINJRating(batter);
 
                 // BD Ratings
-                newBatterCard.BDRating = formulas.CalcClassicBDRating(batter);
-                var expandedBD = formulas.CalcBDRatings(batter);
-                newBatterCard.BDDouble = expandedBD.DoublesToCard;
-                newBatterCard.BDTriple = expandedBD.TriplesToCard;
-                newBatterCard.BDHomerun = expandedBD.HomerunsToCard;
-                newBatterCard.NumberBD2B = expandedBD.NumberBD2Bs;
-                newBatterCard.NumberBD3B = expandedBD.NumberBD3Bs;
-                newBatterCard.NumberBDHR = expandedBD.NumberBDHRs;
+                newBatterCard.BDRating = formulas.CalcClassicBDRating(batter, this.configSettings);
+                var expandedBDRatings = formulas.CalcBDRatings(batter);
+                newBatterCard.BDDouble = expandedBDRatings.DoublesToCard;
+                newBatterCard.BDTriple = expandedBDRatings.TriplesToCard;
+                newBatterCard.BDHomerun = expandedBDRatings.HomerunsToCard;
+                newBatterCard.NumberBD2B = expandedBDRatings.NumberBD2Bs;
+                newBatterCard.NumberBD3B = expandedBDRatings.NumberBD3Bs;
+                newBatterCard.NumberBDHR = expandedBDRatings.NumberBDHRs;
 
                 // placement of hits,outs, etc. on card
-                var placement = formulas.PlaceHitsOnCard(batter);
+                var placement = formulas.PlaceHitsOnCard(batter, this.configSettings);
+                newBatterCard.Single1BF = placement.Single1BF;
+                newBatterCard.Single1B7 = placement.Single1B7;
+                newBatterCard.Single1B8 = placement.Single1B8;
+                newBatterCard.Single1B9 = placement.Single1B9;
+                newBatterCard.Double2B7 = placement.Double2B7;
+                newBatterCard.Double2B8 = placement.Double2B8;
+                newBatterCard.Double2B9 = placement.Double2B9;
+                newBatterCard.Triple3B8 = placement.Triple3B8;
+                newBatterCard.HR = placement.HR;
+                newBatterCard.W = placement.W;
+                newBatterCard.K = placement.K;
+                newBatterCard.HBP = placement.HBP;
+                newBatterCard.Out = placement.Out;
 
-                // the Cht and H&R ratings use the numbers allotted to the card so must be calculated after the card numbers are assigned 
                 // Cht
-                //newBatterCard.Cht = 
-                
+                newBatterCard.Cht = formulas.CalculateCht(batter, placement.NumberHR, this.configSettings);
+
                 // H&R
-                //newBatterCard.HandR = 
+                newBatterCard.HandR = formulas.CalculateHitAndRunRating(placement.NumberK); 
 
                 // count the batter card
                 process.NumberOfCardsCreated += 1;
@@ -87,12 +113,17 @@ namespace RSFMEdia.StatisProCardFactory.Business
             }
 
             // produce PDF version of the cards
-            PrintCards(batterCards, configSettings);
+            PrintCards(batterCards, this.configSettings);
             
                         
             // return the analysis
             process.End = DateTime.Now;
             return process;
+        }
+
+        public void CreatePitcherCards()
+        {
+
         }
 
         private void PrintCards(List<BatterCard> batterCards, CardProcessingConfiguration configSettings)
