@@ -63,29 +63,36 @@ namespace RSFMEdia.StatisProCardFactory.Business
             // init
             int numberOfIBFs = 0;
 
-            // make sure the total number of singles is more than 1
-            if (numberOfSinglesOnCard > 1)
+            // return if none or one single alloted
+            if (numberOfSinglesOnCard == 0 || numberOfSinglesOnCard == 1)
             {
+                return 0;
+            }
 
+            // if only two/three singles then only one can be infield single
+            if (numberOfSinglesOnCard == 2 || numberOfSinglesOnCard == 3)
+            {
+                // allow a maximum of 1 infield single
+                if (playerData.SB >= 9)
+                {
+                    numberOfIBFs = 1;
+                }
             }
             else
             {
-                // maximum of 1 infield single
-
-            }
-
-            // determine possible number of infields singles based on steals
-            if (playerData.SB >= 17)
-            {
-                numberOfIBFs = 2;
-            }
-            else if (playerData.SB >= 9)
-            {
-                numberOfIBFs = 1;
-            }
-            else
-            {
-                numberOfIBFs = 0;    
+                // determine possible number of infield singles based on steals
+                if (playerData.SB >= 17)
+                {
+                    numberOfIBFs = 2;
+                }
+                else if (playerData.SB >= 9)
+                {
+                    numberOfIBFs = 1;
+                }
+                else
+                {
+                    numberOfIBFs = 0;
+                }
             }
             return numberOfIBFs;
         }
@@ -504,15 +511,15 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
             // finalize number hits on card and convert to integers
             var singles = Convert.ToInt32(Math.Round(numberOf1BToCard, 0));
-            var doubles = Math.Round(numberOf2BToCard, 0);
-            var triples = Math.Round(numberOf3BToCard, 0);
-            var hr = Math.Round(numberOfHRToCard, 0);
-            var bb = Math.Round(numberOfBBToCard, 0);
-            var k = Math.Round(numberOfKToCard, 0);
+            var doubles = Convert.ToInt32(Math.Round(numberOf2BToCard, 0));
+            var triples = Convert.ToInt32(Math.Round(numberOf3BToCard, 0));
+            var hr = Convert.ToInt32(Math.Round(numberOfHRToCard, 0));
+            var bb = Convert.ToInt32(Math.Round(numberOfBBToCard, 0));
+            var k = Convert.ToInt32(Math.Round(numberOfKToCard, 0));
 
             // create ranges
-            var possibleIBFs = GetNumberOfIBFs(playerData, singles);
-            var nonIBFSingles = singles - possibleIBFs;
+            var IBFs = GetNumberOfIBFs(playerData, singles);
+            var nonIBFSingles = singles - IBFs;
 
             if (singles >= 6)
             {
