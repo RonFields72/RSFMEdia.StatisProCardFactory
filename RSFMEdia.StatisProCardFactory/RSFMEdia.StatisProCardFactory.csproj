@@ -284,10 +284,10 @@
     <Compile Include="Models\BatterCardPlacement.cs" />
     <Compile Include="Models\INJRating.cs" />
     <Compile Include="Models\MLBTeam.cs" />
-    <Compile Include="Models\NormalizedPlayer.cs" />
     <Compile Include="Models\OBRLookup.cs" />
     <Compile Include="Models\OutfieldArm.cs" />
     <Compile Include="Models\PBLookup.cs" />
+    <Compile Include="Models\PBRating.cs" />
     <Compile Include="Models\PitcherFieldingData.cs" />
     <Compile Include="Models\PitchingData.cs" />
     <Compile Include="Models\PitcherCard.cs" />

@@ -57,6 +57,45 @@ namespace RSFMEdia.StatisProCardFactory.Business
             }
             return battingHand;
         }
+
+        private int GetNumberOfIBFs(BattingData playerData, int numberOfSinglesOnCard)
+        {
+            // init
+            int numberOfIBFs = 0;
+
+            // make sure the total number of singles is more than 1
+            if (numberOfSinglesOnCard > 1)
+            {
+
+            }
+            else
+            {
+                // maximum of 1 infield single
+
+            }
+
+            // determine possible number of infields singles based on steals
+            if (playerData.SB >= 17)
+            {
+                numberOfIBFs = 2;
+            }
+            else if (playerData.SB >= 9)
+            {
+                numberOfIBFs = 1;
+            }
+            else
+            {
+                numberOfIBFs = 0;    
+            }
+            return numberOfIBFs;
+        }
+
+        public int NormalizeStat(int totalGames, int actualGames, int statistic)
+        {
+            // normalize stat to a full team season
+            decimal seasonFactor = (decimal) totalGames / (decimal) actualGames;
+            return Convert.ToInt32(seasonFactor * statistic);
+        }
         #endregion
 
         #region OBR Rating
@@ -463,23 +502,26 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 numberOfHRToCard = numberOfHRToCard - 1;
             }
 
-            // place hits on card
-            var singles = Math.Round(numberOf1BToCard, 0);
+            // finalize number hits on card and convert to integers
+            var singles = Convert.ToInt32(Math.Round(numberOf1BToCard, 0));
             var doubles = Math.Round(numberOf2BToCard, 0);
-            var triples = Math.Round(numberOf3BToCard);
-            var hr = Math.Round(numberOfHRToCard);
-            var bb = Math.Round(numberOfBBToCard);
+            var triples = Math.Round(numberOf3BToCard, 0);
+            var hr = Math.Round(numberOfHRToCard, 0);
+            var bb = Math.Round(numberOfBBToCard, 0);
             var k = Math.Round(numberOfKToCard, 0);
 
             // create ranges
-            if (singles > 1)
+            var possibleIBFs = GetNumberOfIBFs(playerData, singles);
+            var nonIBFSingles = singles - possibleIBFs;
+
+            if (singles >= 6)
             {
                 // TODO: how to determine L,R,S distribution
-                // todo: FORMULA FOR IBF's never more than 2 
+                // FORMULA FOR IBF's = If 20 or more SB's then possibly 2, if ten or more then 1, otherwise 0
             }
             else
             {
-
+                // divide singles
             }
 
             BatterCardPlacement cardTable = new BatterCardPlacement();

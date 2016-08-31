@@ -18,7 +18,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             // create card collection
             var batterCards = new List<BatterCard>();
 
-            // process each batter
+            // process each batter and load the player card collection to be printed
             foreach (var batter in batterData)
             {
                 // create a new player card
