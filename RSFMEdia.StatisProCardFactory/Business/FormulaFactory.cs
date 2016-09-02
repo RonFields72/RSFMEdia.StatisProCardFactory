@@ -590,9 +590,8 @@ namespace RSFMEdia.StatisProCardFactory.Business
             placement.Number2B8 = doublesToCard.Double2B8;
             placement.Number2B9 = doublesToCard.Double2B9;
 
-            // assign to the card
+            // assign ranges from the base 8 numbering scheme (11-88)
             int totalNumbersTaken = 0;
-
             var card1BF = StatisProData.NumberConversions.Take(infieldSingles);
             totalNumbersTaken += infieldSingles;
             var card1B7 = StatisProData.NumberConversions.Skip(totalNumbersTaken).Take(singlesToCard.Single1B7);
@@ -619,8 +618,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             totalNumbersTaken += placement.NumberHBP;
             var cardOut = StatisProData.NumberConversions.Skip(totalNumbersTaken);
 
-
-            // ranges to card
+            // place ranges to card as text
             if (card1BF.Count() > 0)
             {
                 var first = card1BF.First();
@@ -779,7 +777,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
         {
             // init
             SinglesToCard singleData = new SinglesToCard();
-            decimal numberOfSingles = (decimal) singles;
+            decimal distributedSingles = Math.Round((decimal) singles / 3, 0);
 
             // check for no singles
             if (singles == 0)
@@ -793,25 +791,31 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 // right handed (pull left)
                 if (battingHand == BATS_RIGHT)
                 {
-                    singleData.Single1B7 = Convert.ToInt32(Math.Round((numberOfSingles / 3), 0) + 1);
-                    singleData.Single1B8 = (numberOfSingles - (decimal) singleData.Single1B7) / 2;
+                    singleData.Single1B7 = (int) distributedSingles + 1;
+                    singleData.Single1B8 = (int)  ((singles - singleData.Single1B7) / 2);
                     singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
+                    //singleData.Single1B7 = Convert.ToInt32(Math.Round((numberOfSingles / 3), 0) + 1);
+                    //singleData.Single1B8 = (numberOfSingles - (decimal) singleData.Single1B7) / 2;
+                    //singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
                 }
 
                 // left handed (pull right)
                 if (battingHand == BATS_LEFT)
                 {
-                    singleData.Single1B9 = (singles / 3) + 1;
-                    singleData.Single1B8 = (singles - singleData.Single1B9) / 2;
+                    singleData.Single1B9 = (int) distributedSingles + 1;
+                    singleData.Single1B8 = (int) ((singles - singleData.Single1B9) / 2);
                     singleData.Single1B7 = singles - (singleData.Single1B9 + singleData.Single1B8);
                 }
 
                 // switch hitter (evenly distributed)
                 if (battingHand == BATS_SWITCH)
                 {
-                    singleData.Single1B7 = (singles / 3) ;
-                    singleData.Single1B8 = (singles - singleData.Single1B7) / 2;
+                    singleData.Single1B7 = (int) distributedSingles;
+                    singleData.Single1B8 = (int) ((singles - singleData.Single1B7) / 2);
                     singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
+                    //singleData.Single1B7 = (singles / 3) ;
+                    //singleData.Single1B8 = (singles - singleData.Single1B7) / 2;
+                    //singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
                 }
             }
 
