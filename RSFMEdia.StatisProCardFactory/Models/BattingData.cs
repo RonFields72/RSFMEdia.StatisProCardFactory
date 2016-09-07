@@ -32,7 +32,7 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public int CS { get; set; }
         public int BB { get; set; }
         public int SO { get; set; }
-        public decimal BA { get; set; }
+        public decimal? BA { get; set; }
         public decimal OBP { get; set; }
         public decimal SLG { get; set; }
         public decimal OPS { get; set; }

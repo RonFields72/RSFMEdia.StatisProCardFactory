@@ -37,6 +37,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 FormulaFactory formulas = new FormulaFactory();
 
                 // set statistics (placed at bottom of the card)
+                newBatterCard.InfoGames = batter.G.ToString();
                 newBatterCard.InfoAtBats = batter.AB.ToString();
                 newBatterCard.InfoHits = batter.H.ToString();
                 newBatterCard.InfoDoubles = batter.Doubles.ToString();
@@ -59,6 +60,9 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
                 // fielding positions and ratings
                 // newBatterCard.Fielding = 
+                newBatterCard.CD = string.Empty;
+                newBatterCard.Fielding = string.Empty;
+                newBatterCard.Arm = string.Empty;
 
                 // special remarks
                 newBatterCard.Remarks = formulas.CalcRemarks(batter, configSettings);
@@ -113,8 +117,8 @@ namespace RSFMEdia.StatisProCardFactory.Business
             }
 
             // produce PDF version of the cards
-            PrintCards(batterCards, this.configSettings);
-            
+            var printer = new CardPrinter();
+            printer.PrintBatterCards(batterCards, this.configSettings);
                         
             // return the analysis
             process.End = DateTime.Now;
@@ -126,9 +130,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
         }
 
-        private void PrintCards(List<BatterCard> batterCards, CardProcessingConfiguration configSettings)
-        {
-            
-        }
+
+        
     }
 }

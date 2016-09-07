@@ -144,8 +144,6 @@
     <Content Include="About.aspx" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\AspNet.ScriptManager.bootstrap.dll" />
-    <Content Include="bin\Aspose.Pdf.dll" />
-    <Content Include="bin\Aspose.Words.dll" />
     <Content Include="bin\Microsoft.AspNet.FriendlyUrls.dll" />
     <Content Include="bin\Microsoft.AspNet.Web.Optimization.WebForms.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
@@ -243,6 +241,7 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business\CardFactory.cs" />
+    <Compile Include="Business\CardPrinter.cs" />
     <Compile Include="Business\ConfigurationProvider.cs" />
     <Compile Include="Business\MarkupFactory.cs" />
     <Compile Include="Business\FileHelper.cs" />

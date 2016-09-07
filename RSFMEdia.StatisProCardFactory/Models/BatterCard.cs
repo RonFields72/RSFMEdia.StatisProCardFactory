@@ -39,6 +39,7 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public string BDDouble { get; set; }
         public string BDTriple { get; set; }
         public string BDHomerun { get; set; }
+        public string InfoGames { get; set; }
         public string InfoAtBats { get; set; }
         public string InfoRuns { get; set; }
         public string InfoHits { get; set; }

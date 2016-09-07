@@ -15,6 +15,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
         public static readonly string SPCF_CSV_NAMING_PITCHING = "{0}-{1}-{2}-pitching-data.csv";
         public static readonly string SPCF_CSV_NAMING_FIELDING = "{0}-{1}-{2}-fielding-data.csv";
         public static readonly string SPCF_CSV_NAMING_PBDATA = "{0}-{1}-pb-data.csv";
+        public static readonly string SPCF_OUTPUT_NAMING_BATTER = "{0}-{1}-{2}-batter-output.pdf";
 
         // OBR rating
         public static readonly string OBR_RATING_A = "A";

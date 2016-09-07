@@ -353,68 +353,82 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 // 1) calculate total # of extra base hits (add number of doubles + triples + homeruns)
                 var ebh = playerData.Doubles + playerData.Triples + playerData.HR;
 
-                // 2) calculate EBH % (extra base hits dived by total hits)
-                var ebhPct = Math.Round((decimal) ebh / (decimal) playerData.H, 3);
-
-                // 3) calculate number of BD doubles to the card (multiply # of doubles by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
-                var numberOf2Bs = Convert.ToInt32((playerData.Doubles * 64 * ebhPct) / ebh);
-
-                // 4) calculate number of BD triples to the card (multiply # of triples by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
-                var numberOf3Bs = Convert.ToInt32((playerData.Triples * 64 * ebhPct) / ebh);
-
-                // 5) calculate number of BD homeruns to the card (multiply # of triples by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
-                var numberOfHRs = Convert.ToInt32((playerData.HR * 64 * ebhPct) / ebh);
-
-                // 6) assign the corresponding amount of numbers to the player card
-                var doublesToCard = StatisProData.NumberConversions.Take(numberOf2Bs);
-                var triplesToCard = StatisProData.NumberConversions.Skip(numberOf2Bs).Take(numberOf3Bs);
-                var hrsToCard = StatisProData.NumberConversions.Skip(numberOf2Bs + numberOf3Bs).Take(numberOfHRs);
-
-                // set the actual number of each allotted to the card (base 8 numbering system)
-                bd.NumberBD2Bs = numberOf2Bs;
-                bd.NumberBD3Bs = numberOf3Bs;
-                bd.NumberBDHRs = numberOfHRs;
-
-                // doubles
-                if (doublesToCard.Count() > 0)
+                // if player had no extra base hits then BD ratings are empty
+                if (ebh > 0)
                 {
-                    var firstDouble = doublesToCard.First();
-                    var lastDouble = doublesToCard.Last();
-                    // account for one or more doubles double
-                    bd.DoublesToCard = doublesToCard.Count() == 1 ? string.Format("{0}", firstDouble.Base8Number.ToString()) :
-                        string.Format("{0} - {1}", firstDouble.Base8Number.ToString(), lastDouble.Base8Number.ToString());
+                    // 2) calculate EBH % (extra base hits dived by total hits)
+                    var ebhPct = Math.Round((decimal) ebh / (decimal) playerData.H, 3);
+
+                    // 3) calculate number of BD doubles to the card (multiply # of doubles by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
+                    var numberOf2Bs = Convert.ToInt32((playerData.Doubles * 64 * ebhPct) / ebh);
+
+                    // 4) calculate number of BD triples to the card (multiply # of triples by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
+                    var numberOf3Bs = Convert.ToInt32((playerData.Triples * 64 * ebhPct) / ebh);
+
+                    // 5) calculate number of BD homeruns to the card (multiply # of triples by 64 and then multiply that by the EBH% then divide by number of extra base hits (EBH)
+                    var numberOfHRs = Convert.ToInt32((playerData.HR * 64 * ebhPct) / ebh);
+
+                    // 6) assign the corresponding amount of numbers to the player card
+                    var doublesToCard = StatisProData.NumberConversions.Take(numberOf2Bs);
+                    var triplesToCard = StatisProData.NumberConversions.Skip(numberOf2Bs).Take(numberOf3Bs);
+                    var hrsToCard = StatisProData.NumberConversions.Skip(numberOf2Bs + numberOf3Bs).Take(numberOfHRs);
+
+                    // set the actual number of each allotted to the card (base 8 numbering system)
+                    bd.NumberBD2Bs = numberOf2Bs;
+                    bd.NumberBD3Bs = numberOf3Bs;
+                    bd.NumberBDHRs = numberOfHRs;
+
+                    // doubles
+                    if (doublesToCard.Count() > 0)
+                    {
+                        var firstDouble = doublesToCard.First();
+                        var lastDouble = doublesToCard.Last();
+                        // account for one or more doubles double
+                        bd.DoublesToCard = doublesToCard.Count() == 1 ? string.Format("{0}", firstDouble.Base8Number.ToString()) :
+                            string.Format("{0} - {1}", firstDouble.Base8Number.ToString(), lastDouble.Base8Number.ToString());
+                    }
+                    else
+                    {
+                        bd.DoublesToCard = string.Empty;
+                    }
+
+                    // triples
+                    if (triplesToCard.Count() > 0)
+                    {
+                        var firstTriple = triplesToCard.First();
+                        var lastTriple = triplesToCard.Last();
+                        // account for one or more triples
+                        bd.TriplesToCard = triplesToCard.Count() == 1 ? string.Format("{0}", firstTriple.Base8Number.ToString()) :
+                            string.Format("{0} - {1}", firstTriple.Base8Number.ToString(), lastTriple.Base8Number.ToString());
+                    }
+                    else
+                    {
+                        bd.TriplesToCard = string.Empty;
+                    }
+
+                    // homers
+                    if (hrsToCard.Count() > 0)
+                    {
+                        var firstHR = hrsToCard.First();
+                        var lastHR = hrsToCard.Last();
+                        // account for one or more homeruns
+                        bd.HomerunsToCard = hrsToCard.Count() == 1 ? string.Format("{0}", firstHR.Base8Number.ToString()) :
+                            string.Format("{0} - {1}", firstHR.Base8Number.ToString(), lastHR.Base8Number.ToString());
+                    }
+                    else
+                    {
+                        bd.HomerunsToCard = string.Empty;
+                    }
                 }
                 else
                 {
+                    // player had no ebh
+                    bd.NumberBD2Bs = 0;
+                    bd.NumberBD3Bs = 0;
+                    bd.NumberBDHRs = 0;
                     bd.DoublesToCard = string.Empty;
-                }
-
-                // triples
-                if (triplesToCard.Count() > 0)
-                {
-                    var firstTriple = triplesToCard.First();
-                    var lastTriple = triplesToCard.Last();
-                    // account for one or more triples
-                    bd.TriplesToCard = triplesToCard.Count() == 1 ? string.Format("{0}", firstTriple.Base8Number.ToString()) :
-                        string.Format("{0} - {1}", firstTriple.Base8Number.ToString(), lastTriple.Base8Number.ToString());
-                }
-                else
-                {
-                    bd.TriplesToCard = string.Empty;
-                }
-
-                // homers
-                if (hrsToCard.Count() > 0)
-                {
-                    var firstHR = hrsToCard.First();
-                    var lastHR = hrsToCard.Last();
-                    // account for one or more homeruns
-                    bd.HomerunsToCard = hrsToCard.Count() == 1 ? string.Format("{0}", firstHR.Base8Number.ToString()) :
-                        string.Format("{0} - {1}", firstHR.Base8Number.ToString(), lastHR.Base8Number.ToString());
-                }
-                else
-                {
                     bd.HomerunsToCard = string.Empty;
+                    bd.TriplesToCard = string.Empty;
                 }
             }
             else
@@ -760,7 +774,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             }
             else
             {
-                placement.W = string.Empty;
+                placement.Out = string.Empty;
             }
 
             // return the number placement
@@ -776,7 +790,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
         private SinglesToCard DistributeSingles(string battingHand, int singles)
         {
             // init
-            SinglesToCard singleData = new SinglesToCard();
+            var singleData = new SinglesToCard();
             decimal distributedSingles = Math.Round((decimal) singles / 3, 0);
 
             // check for no singles
@@ -794,9 +808,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     singleData.Single1B7 = (int) distributedSingles + 1;
                     singleData.Single1B8 = (int)  ((singles - singleData.Single1B7) / 2);
                     singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
-                    //singleData.Single1B7 = Convert.ToInt32(Math.Round((numberOfSingles / 3), 0) + 1);
-                    //singleData.Single1B8 = (numberOfSingles - (decimal) singleData.Single1B7) / 2;
-                    //singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
                 }
 
                 // left handed (pull right)
@@ -813,9 +824,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     singleData.Single1B7 = (int) distributedSingles;
                     singleData.Single1B8 = (int) ((singles - singleData.Single1B7) / 2);
                     singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
-                    //singleData.Single1B7 = (singles / 3) ;
-                    //singleData.Single1B8 = (singles - singleData.Single1B7) / 2;
-                    //singleData.Single1B9 = singles - (singleData.Single1B7 + singleData.Single1B8);
                 }
             }
 
@@ -831,7 +839,8 @@ namespace RSFMEdia.StatisProCardFactory.Business
         private DoublesToCard DistributeDoubles(string battingHand, int doubles)
         {
             // init
-            DoublesToCard doubleData = new DoublesToCard();
+            var doubleData = new DoublesToCard();
+            decimal distributedDoubles = Math.Round((decimal) doubles / 3, 0);
 
             // check for no doubles
             if (doubles == 0)
@@ -845,24 +854,24 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 // right handed (pull left)
                 if (battingHand == BATS_RIGHT)
                 {
-                    doubleData.Double2B7 = (doubles / 3) + 1;
-                    doubleData.Double2B8 = (doubles - doubleData.Double2B7) / 2;
+                    doubleData.Double2B7 = (int) distributedDoubles + 1;
+                    doubleData.Double2B8 = (int) ((doubles - doubleData.Double2B7) / 2);
                     doubleData.Double2B9 = doubles - (doubleData.Double2B7 + doubleData.Double2B8);
                 }
 
                 // left handed (pull right)
                 if (battingHand == BATS_LEFT)
                 {
-                    doubleData.Double2B9 = (doubles / 3) + 1;
-                    doubleData.Double2B8 = (doubles - doubleData.Double2B9) / 2;
+                    doubleData.Double2B9 = (int) distributedDoubles + 1;
+                    doubleData.Double2B8 = (int) ((doubles - doubleData.Double2B9) / 2);
                     doubleData.Double2B7 = doubles - (doubleData.Double2B9 + doubleData.Double2B8);
                 }
 
                 // switch hitter (evenly distributed)
                 if (battingHand == BATS_SWITCH)
                 {
-                    doubleData.Double2B7 = (doubles / 3);
-                    doubleData.Double2B8 = (doubles - doubleData.Double2B7) / 2;
+                    doubleData.Double2B7 = (int) distributedDoubles;
+                    doubleData.Double2B8 = (int) ((doubles - doubleData.Double2B7) / 2);
                     doubleData.Double2B9 = doubles - (doubleData.Double2B7 + doubleData.Double2B8);
                 }
             }
