@@ -9,6 +9,9 @@ namespace RSFMEdia.StatisProCardFactory.Models
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public int NumberOfCardsCreated { get; set; }
+        public int NumberOfBatterCardsCreated { get; set; }
+        public int NumberOfBatterCardsSkipped { get; set; }
+        public int NumberOfPitcherCardsCreated { get; set; }
+        public int NumberOfPitcherCardsSkipped { get; set; }
     }
 }

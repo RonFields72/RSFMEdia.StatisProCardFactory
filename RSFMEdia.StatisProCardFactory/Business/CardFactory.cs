@@ -32,89 +32,106 @@ namespace RSFMEdia.StatisProCardFactory.Business
             // process each batter and load the player card collection to be printed
             foreach (var batter in batterData)
             {
-                // create a new player card
-                BatterCard newBatterCard = new BatterCard();
-                FormulaFactory formulas = new FormulaFactory();
+                // check minimum AB
+                if (batter.AB >= configSettings.MinimumAB)
+                {
+                    // create a new player card
+                    BatterCard newBatterCard = new BatterCard();
+                    FormulaFactory formulas = new FormulaFactory();
 
-                // set statistics (placed at bottom of the card)
-                newBatterCard.InfoGames = batter.G.ToString();
-                newBatterCard.InfoAtBats = batter.AB.ToString();
-                newBatterCard.InfoHits = batter.H.ToString();
-                newBatterCard.InfoDoubles = batter.Doubles.ToString();
-                newBatterCard.InfoTriples = batter.Triples.ToString();
-                newBatterCard.InfoHomeruns = batter.HR.ToString();
-                newBatterCard.InfoStolenBases = batter.SB.ToString();
-                newBatterCard.InfoWalks = batter.BB.ToString();
-                newBatterCard.InfoRBI = batter.RBI.ToString();
-                newBatterCard.InfoRuns = batter.R.ToString();
-                newBatterCard.InfoAVG = batter.BA.ToString();
-                newBatterCard.InfoOPS = batter.OPS.ToString();
-                newBatterCard.InfoSLG = batter.SLG.ToString();
+                    // set statistics (placed at bottom of the card)
+                    newBatterCard.InfoGames = batter.G.ToString();
+                    newBatterCard.InfoAtBats = batter.AB.ToString();
+                    newBatterCard.InfoHits = batter.H.ToString();
+                    newBatterCard.InfoDoubles = batter.Doubles.ToString();
+                    newBatterCard.InfoTriples = batter.Triples.ToString();
+                    newBatterCard.InfoHomeruns = batter.HR.ToString();
+                    newBatterCard.InfoStolenBases = batter.SB.ToString();
+                    newBatterCard.InfoWalks = batter.BB.ToString();
+                    newBatterCard.InfoRBI = batter.RBI.ToString();
+                    newBatterCard.InfoRuns = batter.R.ToString();
+                    var battingAverage = batter.BA.ToString();
+                    if (battingAverage.Substring(0) == "0")
+                    {
+                        newBatterCard.InfoAVG = battingAverage.Substring(1);
+                    }
+                    else
+	                {
+                        newBatterCard.InfoAVG = batter.BA.ToString();
+                    }
+                    newBatterCard.InfoOPS = batter.OPS.ToString();
+                    newBatterCard.InfoSLG = batter.SLG.ToString();
 
-                // attributes
-                newBatterCard.Name = formulas.ParsePlayerName(batter.Name);
-                newBatterCard.Age = Math.Round(batter.Age, 0).ToString();
-                newBatterCard.Team = configSettings.TeamName.Trim();
-                newBatterCard.League = configSettings.League;
-                newBatterCard.Year = configSettings.Year;
+                    // attributes (team, year, league, name, age, etc.)
+                    newBatterCard.Name = formulas.ParsePlayerName(batter.Name);
+                    newBatterCard.Age = Math.Round(batter.Age, 0).ToString();
+                    newBatterCard.Team = configSettings.TeamName.Trim();
+                    newBatterCard.League = configSettings.League;
+                    newBatterCard.Year = configSettings.Year;
 
-                // fielding positions and ratings
-                // newBatterCard.Fielding = 
-                newBatterCard.CD = string.Empty;
-                newBatterCard.Fielding = string.Empty;
-                newBatterCard.Arm = string.Empty;
+                    // fielding positions and ratings
+                    newBatterCard.CD = "CD: 1/3b";
+                    newBatterCard.Fielding = "OF(133/E8)";
+                    newBatterCard.Arm = "T5";
 
-                // special remarks
-                newBatterCard.Remarks = formulas.CalcRemarks(batter, configSettings);
+                    // special remarks
+                    newBatterCard.Remarks = formulas.CalcRemarks(batter, configSettings);
 
-                // OBR rating
-                newBatterCard.OBR = formulas.CalcOBR(batter);
+                    // OBR rating
+                    newBatterCard.OBR = string.Format("OBR: {0}", formulas.CalcOBR(batter));
 
-                // SP rating
-                newBatterCard.SP = formulas.CalcSPRatingLocal(batter, configSettings);
+                    // SP rating
+                    newBatterCard.SP = string.Format("SP: {0}", formulas.CalcSPRatingLocal(batter, configSettings));
 
-                // SAC rating 
-                newBatterCard.SAC = formulas.CalcSACRatingLocal(batter, configSettings);
+                    // SAC rating 
+                    newBatterCard.SAC = string.Format("SAC: {0}", formulas.CalcSACRatingLocal(batter, configSettings));
 
-                // INJ rating
-                newBatterCard.Inj = formulas.CalcINJRating(batter);
+                    // INJ rating
+                    newBatterCard.Inj = string.Format("INJ: {0}", formulas.CalcINJRating(batter));
 
-                // BD Ratings
-                newBatterCard.BDRating = formulas.CalcClassicBDRating(batter, this.configSettings);
-                var expandedBDRatings = formulas.CalcBDRatings(batter);
-                newBatterCard.BDDouble = expandedBDRatings.DoublesToCard;
-                newBatterCard.BDTriple = expandedBDRatings.TriplesToCard;
-                newBatterCard.BDHomerun = expandedBDRatings.HomerunsToCard;
-                newBatterCard.NumberBD2B = expandedBDRatings.NumberBD2Bs;
-                newBatterCard.NumberBD3B = expandedBDRatings.NumberBD3Bs;
-                newBatterCard.NumberBDHR = expandedBDRatings.NumberBDHRs;
+                    // BD Ratings
+                    newBatterCard.BDRating = formulas.CalcClassicBDRating(batter, this.configSettings);
+                    var expandedBDRatings = formulas.CalcBDRatings(batter);
+                    newBatterCard.BDDouble = expandedBDRatings.DoublesToCard;
+                    newBatterCard.BDTriple = expandedBDRatings.TriplesToCard;
+                    newBatterCard.BDHomerun = expandedBDRatings.HomerunsToCard;
+                    newBatterCard.NumberBD2B = expandedBDRatings.NumberBD2Bs;
+                    newBatterCard.NumberBD3B = expandedBDRatings.NumberBD3Bs;
+                    newBatterCard.NumberBDHR = expandedBDRatings.NumberBDHRs;
 
-                // placement of hits,outs, etc. on card
-                var placement = formulas.PlaceHitsOnCard(batter, this.configSettings);
-                newBatterCard.Single1BF = placement.Single1BF;
-                newBatterCard.Single1B7 = placement.Single1B7;
-                newBatterCard.Single1B8 = placement.Single1B8;
-                newBatterCard.Single1B9 = placement.Single1B9;
-                newBatterCard.Double2B7 = placement.Double2B7;
-                newBatterCard.Double2B8 = placement.Double2B8;
-                newBatterCard.Double2B9 = placement.Double2B9;
-                newBatterCard.Triple3B8 = placement.Triple3B8;
-                newBatterCard.HR = placement.HR;
-                newBatterCard.W = placement.W;
-                newBatterCard.K = placement.K;
-                newBatterCard.HBP = placement.HBP;
-                newBatterCard.Out = placement.Out;
+                    // placement of hits,outs, etc. on card
+                    var placement = formulas.PlaceHitsOnCard(batter, this.configSettings);
+                    newBatterCard.Single1BF = placement.Single1BF;
+                    newBatterCard.Single1B7 = placement.Single1B7;
+                    newBatterCard.Single1B8 = placement.Single1B8;
+                    newBatterCard.Single1B9 = placement.Single1B9;
+                    newBatterCard.Double2B7 = placement.Double2B7;
+                    newBatterCard.Double2B8 = placement.Double2B8;
+                    newBatterCard.Double2B9 = placement.Double2B9;
+                    newBatterCard.Triple3B8 = placement.Triple3B8;
+                    newBatterCard.HR = placement.HR;
+                    newBatterCard.W = placement.W;
+                    newBatterCard.K = placement.K;
+                    newBatterCard.HBP = placement.HBP;
+                    newBatterCard.Out = placement.Out;
 
-                // Cht
-                newBatterCard.Cht = formulas.CalculateCht(batter, placement.NumberHR, this.configSettings);
+                    // Cht
+                    newBatterCard.Cht = formulas.CalculateCht(batter, placement.NumberHR, this.configSettings);
 
-                // H&R
-                newBatterCard.HandR = formulas.CalculateHitAndRunRating(placement.NumberK); 
+                    // H&R
+                    newBatterCard.HandR = string.Format("H&R: {0}", formulas.CalculateHitAndRunRating(placement.NumberK));
 
-                // count the batter card
-                process.NumberOfCardsCreated += 1;
-                batterCards.Add(newBatterCard);
-            }
+                    // count the batter card
+                    process.NumberOfBatterCardsCreated += 1;
+
+                    // add card to the collection for printing
+                    batterCards.Add(newBatterCard);
+                }
+                else
+                {
+                    process.NumberOfBatterCardsSkipped += 1;
+                }
+            }    
 
             // produce PDF version of the cards
             var printer = new CardPrinter();

@@ -82,6 +82,14 @@
     <div class="panel panel-default">
         <div class="panel-heading">Card Processing Configuration</div>
         <div class="panel-body">
+            <label for="tbMinimumAB">Minimum # of ABs</label>
+            <asp:TextBox ID="tbMinimumAB" runat="server">Minimum # of AB</asp:TextBox>
+            <asp:RangeValidator ID="rvMinimumAB" runat="server" ControlToValidate="tbMinimumAB" MinimumValue="1" MaximumValue="999" Type="Integer" ErrorMessage="* valid values begin at 1" Font-Italic="true"></asp:RangeValidator>
+            <br />
+            <label for="tbMinimumIP">Minimum # of IP</label>
+            <asp:TextBox ID="tbMinimumIP" runat="server">Minimum # of IP</asp:TextBox>
+            <asp:RangeValidator ID="RangeValidator1" runat="server" ControlToValidate="tbMinimumIP" MinimumValue="1" MaximumValue="999" Type="Integer" ErrorMessage="* valid values begin at 1" Font-Italic="true"></asp:RangeValidator>
+            <br />
             <asp:CheckBox ID="cbUseUBR" runat="server" />&nbsp;Use UBR (if provided)
             <br />
             <asp:CheckBox ID="cbUseUZR" runat="server" />&nbsp;Use UZR (if provided)

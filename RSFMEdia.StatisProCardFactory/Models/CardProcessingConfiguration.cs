@@ -17,5 +17,7 @@ namespace RSFMEdia.StatisProCardFactory.Models
         public bool UseUBR { get; set; }
         public bool UseUZR { get; set; }
         public bool UseTZ { get; set; }
+        public int MinimumAB { get; set; }
+        public int MinimumIP { get; set; }
     }
 }

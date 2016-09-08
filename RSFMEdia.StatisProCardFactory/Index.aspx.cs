@@ -40,6 +40,10 @@ namespace RSFMEdia.StatisProCardFactory
         {
             LoadTeams();
             LoadSeasons();
+
+            // set config defaults
+            tbMinimumAB.Text = "1";
+            tbMinimumIP.Text = "1";
         }
 
         private void LoadSeasons()
@@ -108,6 +112,9 @@ namespace RSFMEdia.StatisProCardFactory
                     processingData.UseTZ = cbUseTZ.Checked ? true : false;
                     processingData.UseUBR = cbUseUBR.Checked ? true : false;
                     processingData.UseUZR = cbUseUZR.Checked ? true : false;
+                    processingData.MinimumAB = !string.IsNullOrEmpty(tbMinimumAB.Text) ? Convert.ToInt32(tbMinimumAB.Text) : 1;
+                    processingData.MinimumIP = !string.IsNullOrEmpty(tbMinimumIP.Text) ? Convert.ToInt32(tbMinimumIP.Text) : 1;
+
 
                     // process batting upload
                     if (fuBatting.HasFile)
@@ -118,17 +125,23 @@ namespace RSFMEdia.StatisProCardFactory
 
                         // rename file and save it to the server
                         fuBatting.SaveAs(battingFullPath);
-
-                        // TEST:read the batting data
+                        
+                        // read the batter data into the collection
                         var csvEngine = new FileHelperEngine<BattingData>();
                         var batters = csvEngine.ReadFileAsList(battingFullPath);
+
+                        // TEST:read the batting data
                         var batter = batters.FirstOrDefault(b => b.Age >= 25);
                         lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
 
                         // process the batting data and create player cards
                         CardFactory card = new CardFactory(processingData);
-                        var x = card.CreateBatterCards(batters);
-                        litMessage.Text = x.End.ToShortTimeString();
+                        var analysis = card.CreateBatterCards(batters);
+
+                        // display process report
+                        var analysisReport = string.Format("Process started at {0} and ended at {1}. {2} batter cards were created and {3} batter cards were skipped. **",
+                            analysis.Start.ToShortDateString(), analysis.End.ToShortDateString(), analysis.NumberOfBatterCardsCreated.ToString(), analysis.NumberOfBatterCardsSkipped.ToString());
+                        litMessage.Text = MarkupFactory.BuildBootstrapAlertSuccess(analysisReport);
                     }
 
                     // process pitching upload
@@ -149,6 +162,7 @@ namespace RSFMEdia.StatisProCardFactory
                     }
 
                     // process fielding upload
+                    // TODO: process the fielding file with the batting file
                     if (fuFielding.HasFile)
                     {
                         // generate a file name
