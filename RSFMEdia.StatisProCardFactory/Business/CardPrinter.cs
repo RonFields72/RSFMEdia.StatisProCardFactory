@@ -105,9 +105,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
 
         public void PrintBatterCards(List<BatterCard> batterCards, CardProcessingConfiguration configSettings)
         {
-            // determine how many sheets to print (15 cards fit on one sheet)
-            //int sheets = (int) Math.Ceiling((double) batterCards.Count / 15);
-
             // define form field objects
             FormField ffTeam = null;
             FormField ffLeague = null;
@@ -217,7 +214,6 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     ffInfoAVG = batterCardSheet.Range.FormFields["InfoAVG" + sheetCounter1.ToString()];
                     ffInfoSB = batterCardSheet.Range.FormFields["InfoSB" + sheetCounter1.ToString()];
                 }
-
 
                 // sheet #2 (batter cards 16-30)
                 if (cardCounter >= 16 && cardCounter <= 30)
@@ -401,54 +397,11 @@ namespace RSFMEdia.StatisProCardFactory.Business
                 ffInfoAVG.Result = batterCard.InfoAVG;
                 ffInfoSB.Result = batterCard.InfoStolenBases;
             }
-                                  
-
-            //FormField ffTeam = batterTemplate.Range.FormFields["Team1"];
-            //FormField ffLeague = batterTemplate.Range.FormFields["League1"];
-            //FormField ffYear = batterTemplate.Range.FormFields["Year1"];
-            //FormField ffName = batterTemplate.Range.FormFields["Name1"];
-            //FormField ffAge = batterTemplate.Range.FormFields["Age1"];
-            //FormField ffArm = batterTemplate.Range.FormFields["Arm1"];
-            //FormField ffFielding = batterTemplate.Range.FormFields["Fielding1"];
-            //FormField ffSpecialRemarks = batterTemplate.Range.FormFields["SpecialRemarks1"];
-            //FormField ffOBR = batterTemplate.Range.FormFields["OBR1"];
-            //FormField ffSP = batterTemplate.Range.FormFields["SP1"];
-            //FormField ffHAndR = batterTemplate.Range.FormFields["HAndR1"];
-            //FormField ffCD = batterTemplate.Range.FormFields["CD1"];
-            //FormField ffSAC = batterTemplate.Range.FormFields["SAC1"];
-            //FormField ffInj = batterTemplate.Range.FormFields["Inj1"];
-            //FormField ff1BF = batterTemplate.Range.FormFields["Single1BF1"];
-            //FormField ff1B7 = batterTemplate.Range.FormFields["Single1B71"];
-            //FormField ff1B8 = batterTemplate.Range.FormFields["Single1B81"];
-            //FormField ff1B9 = batterTemplate.Range.FormFields["Single1B91"];
-            //FormField ff2B7 = batterTemplate.Range.FormFields["Double2B71"];
-            //FormField ff2B8 = batterTemplate.Range.FormFields["Double2B81"];
-            //FormField ff2B9 = batterTemplate.Range.FormFields["Double2B91"];
-            //FormField ff3B8 = batterTemplate.Range.FormFields["Triple3B81"];
-            //FormField ffHR = batterTemplate.Range.FormFields["HR1"];
-            //FormField ffK = batterTemplate.Range.FormFields["K1"];
-            //FormField ffBB = batterTemplate.Range.FormFields["BB1"];
-            //FormField ffHBP = batterTemplate.Range.FormFields["HBP1"];
-            //FormField ffOut = batterTemplate.Range.FormFields["Out1"];
-            //FormField ffCht = batterTemplate.Range.FormFields["Cht1"];
-            //FormField ffBDRating = batterTemplate.Range.FormFields["BDRating1"];
-            //FormField ffBD2B = batterTemplate.Range.FormFields["BD2B1"];
-            //FormField ffBD3B = batterTemplate.Range.FormFields["BD3B1"];
-            //FormField ffBDHR = batterTemplate.Range.FormFields["BDHR1"];
-            //FormField ffInfoG = batterTemplate.Range.FormFields["InfoG1"];
-            //FormField ffInfoAB = batterTemplate.Range.FormFields["InfoAB1"];
-            //FormField ffInfoH = batterTemplate.Range.FormFields["InfoH1"];
-            //FormField ffInfoHR = batterTemplate.Range.FormFields["InfoHR1"];
-            //FormField ffInfoRBI = batterTemplate.Range.FormFields["InfoRBI1"];
-            //FormField ffInfoAVG = batterTemplate.Range.FormFields["InfoAVG1"];
-            //FormField ffInfoSB = batterTemplate.Range.FormFields["InfoSB1"];
-
-            
 
             // create a name for the output file based on the settings entered
             var battingFilename = string.Format(SPCFConstants.SPCF_OUTPUT_NAMING_BATTER, configSettings.Year, configSettings.TeamAbbrev, configSettings.League);
 
-            // concatenate the files
+            // concatenate the files (if necessary)
             if (usesSecondSheet)
             {
                 batterCardSheet.AppendDocument(batterCardSheet2, ImportFormatMode.KeepSourceFormatting);
@@ -461,6 +414,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
             {
                 batterCardSheet.AppendDocument(batterCardSheet4, ImportFormatMode.KeepSourceFormatting);
             }
+
             // create the batter cards file
             WriteFile(batterCardSheet, battingFilename, SPCFConstants.SPCF_OUTPUT_DIRECTORY);
         }

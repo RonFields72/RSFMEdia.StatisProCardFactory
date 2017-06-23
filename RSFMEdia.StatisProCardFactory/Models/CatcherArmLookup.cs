@@ -5,9 +5,10 @@ using System.Web;
 
 namespace RSFMEdia.StatisProCardFactory.Models
 {
-    public class CatcherArm
+    public class CatcherArmLookup
     {
-        public string Rating { get; set; }
+        public string T { get; set; }
         public string Description { get; set; }
+        public double CaughtStealingPct { get; set; }
     }
 }

@@ -117,26 +117,36 @@ namespace RSFMEdia.StatisProCardFactory
 
 
                     // process batting upload
-                    if (fuBatting.HasFile)
+                    if (fuBatting.HasFile && fuFielding.HasFile)
                     {
-                        // generate a file name
+                        // generate csv file names
                         var battingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_BATTING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
                         var battingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + battingFilename;
+                        var fieldingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_FIELDING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
+                        var fieldingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + fieldingFilename;
 
-                        // rename file and save it to the server
+                        // rename files and save to the server
                         fuBatting.SaveAs(battingFullPath);
-                        
+                        fuFielding.SaveAs(fieldingFullPath);
+
                         // read the batter data into the collection
-                        var csvEngine = new FileHelperEngine<BattingData>();
-                        var batters = csvEngine.ReadFileAsList(battingFullPath);
+                        var battingCSVEngine = new FileHelperEngine<BattingData>();
+                        var batters = battingCSVEngine.ReadFileAsList(battingFullPath);
+
+                        // read the fielding data into the collection
+                        var fieldingCSVEngine = new FileHelperEngine<FieldingData>();
+                        var fielders = fieldingCSVEngine.ReadFileAsList(fieldingFullPath);
 
                         // TEST:read the batting data
-                        var batter = batters.FirstOrDefault(b => b.Age >= 25);
-                        lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
+                        //var batter = batters.FirstOrDefault(b => b.Age >= 25);
+                        //lblTestDisplay1.Text = string.Format("Test random batter: {0}", batter.Name);
+                        // TEST:read the fielding data
+                        //var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
+                        //lblTestDisplay3.Text = string.Format("Test random fielder: {0}", fielder.Name);
 
-                        // process the batting data and create player cards
+                        // process the batting/fielding data and create player cards
                         CardFactory card = new CardFactory(processingData);
-                        var analysis = card.CreateBatterCards(batters);
+                        var analysis = card.CreateBatterCards(batters, fielders);
 
                         // display process report
                         var analysisReport = string.Format("Process started at {0} and ended at {1}. {2} batter cards were created and {3} batter cards were skipped. **",
@@ -154,29 +164,11 @@ namespace RSFMEdia.StatisProCardFactory
                         // rename file and save it to the server
                         fuPitching.SaveAs(pitchingFullPath);
 
-                        // TEST:read the pitching data
+                        // read the pitching data
                         var csvEngine = new FileHelperEngine<PitchingData>();
                         var pitchers = csvEngine.ReadFileAsList(pitchingFullPath);
                         var pitcher = pitchers.FirstOrDefault(b => b.Age >= 31);
                         lblTestDisplay2.Text = string.Format("Test random pitcher: {0}", pitcher.Name);
-                    }
-
-                    // process fielding upload
-                    // TODO: process the fielding file with the batting file
-                    if (fuFielding.HasFile)
-                    {
-                        // generate a file name
-                        var fieldingFilename = string.Format(SPCFConstants.SPCF_CSV_NAMING_FIELDING, ddlYear.SelectedValue, ddlTeam.SelectedValue, ddlLeague.SelectedValue);
-                        var fieldingFullPath = SPCFConstants.SPCF_CSV_DIRECTORY + fieldingFilename;
-
-                        // rename file and save it to the server
-                        fuFielding.SaveAs(fieldingFullPath);
-
-                        // TEST:read the fielding data
-                        var csvEngine = new FileHelperEngine<FieldingData>();
-                        var fielders = csvEngine.ReadFileAsList(fieldingFullPath);
-                        var fielder = fielders.FirstOrDefault(b => b.Name.Contains("Tony"));
-                        lblTestDisplay3.Text = string.Format("Test random fielder: {0}", fielder.Name);
                     }
                 }
                 catch (Exception why)
@@ -190,11 +182,14 @@ namespace RSFMEdia.StatisProCardFactory
         {
             // TODO: don't forget to check for all three files
             //if (!fuBatting.HasFiles || !fuPitching.HasFiles || !fuFielding.HasFiles)
-            if (!fuBatting.HasFiles)
+            if (!fuBatting.HasFiles || !fuFielding.HasFiles)
             {
                 ErrorMessage = "** All three .csv files are required in order to generate player/pitcher cards. **";
                 return false;
             }
+
+            // TODO: make sure PB ratings are available for the given season
+
             return true;
         }
         #endregion

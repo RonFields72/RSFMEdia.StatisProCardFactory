@@ -16,31 +16,33 @@ namespace RSFMEdia.StatisProCardFactory.Models
     [IgnoreFirst(1)]
     public class BattingData
     {
-        public string Pos { get; set; }
-        public string Name { get; set; }
-        public decimal Age { get; set; }
-        public int G { get; set; }
-        public int PA { get; set; }
-        public int AB { get; set; }
-        public int R { get; set; }
-        public int H { get; set; }
-        public int Doubles { get; set; }
-        public int Triples { get; set; }
-        public int HR { get; set; }
-        public int RBI { get; set; }
-        public int SB { get; set; }
-        public int CS { get; set; }
-        public int BB { get; set; }
-        public int SO { get; set; }
-        public decimal? BA { get; set; }
-        public decimal OBP { get; set; }
-        public decimal SLG { get; set; }
-        public decimal OPS { get; set; }
-        public int TB { get; set; }
-        public int GDP { get; set; }
-        public int HBP { get; set; }
-        public int SH { get; set; }
-        public int SF { get; set; }
-        public int IBB { get; set; }
+        public string Pos;
+        public string Name;
+        public decimal Age;
+        public int G;
+        public int PA;
+        public int AB;
+        public int R;
+        public int H;
+        public int Doubles;
+        public int Triples;
+        public int HR;
+        public int RBI;
+        public int SB;
+        public int CS;
+        public int BB;
+        public int SO;
+        public decimal? BA;
+        public decimal? OBP;
+        public decimal? SLG;
+        public decimal? OPS;
+        public int TB;
+        public int GDP;
+        public int HBP;
+        public int SH;
+        public int SF;
+        public int IBB;
+        [FieldOptional]
+        public int? UBR;
     }
 }

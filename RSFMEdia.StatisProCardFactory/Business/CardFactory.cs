@@ -20,7 +20,7 @@ namespace RSFMEdia.StatisProCardFactory.Business
         #endregion
 
         // TODO: public BatterCardAnalysis CreateBatterCards(List<BattingData> batterData, List<FieldingData> fielderData)
-        public CardAnalysis CreateBatterCards(List<BattingData> batterData)
+        public CardAnalysis CreateBatterCards(List<BattingData> batterData, List<FieldingData> fielderData)
         {
             // init process statistics
             var process = new CardAnalysis();
@@ -70,24 +70,29 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     newBatterCard.Year = configSettings.Year;
 
                     // fielding positions and ratings
-                    newBatterCard.CD = "CD: 1/3b";
-                    newBatterCard.Fielding = "OF(133/E8)";
+                    var fieldingRatings = formulas.CalcFielding(batter, fielderData, configSettings);
+                    newBatterCard.CD = "1/3b";
+                    newBatterCard.Fielding = "OF-133(E8)";
                     newBatterCard.Arm = "T5";
 
                     // special remarks
                     newBatterCard.Remarks = formulas.CalcRemarks(batter, configSettings);
 
                     // OBR rating
-                    newBatterCard.OBR = string.Format("OBR: {0}", formulas.CalcOBR(batter));
+                    //newBatterCard.OBR = string.Format("OBR: {0}", formulas.CalcOBR(batter));
+                    newBatterCard.OBR = formulas.CalcOBR(batter);
 
                     // SP rating
-                    newBatterCard.SP = string.Format("SP: {0}", formulas.CalcSPRatingLocal(batter, configSettings));
+                    //newBatterCard.SP = string.Format("SP: {0}", formulas.CalcSPRatingLocal(batter, configSettings));
+                    newBatterCard.SP = formulas.CalcSPRatingLocal(batter, configSettings);
 
                     // SAC rating 
-                    newBatterCard.SAC = string.Format("SAC: {0}", formulas.CalcSACRatingLocal(batter, configSettings));
+                    //newBatterCard.SAC = string.Format("SAC: {0}", formulas.CalcSACRatingLocal(batter, configSettings));
+                    newBatterCard.SAC = formulas.CalcSACRatingLocal(batter, configSettings);
 
                     // INJ rating
-                    newBatterCard.Inj = string.Format("INJ: {0}", formulas.CalcINJRating(batter));
+                    //newBatterCard.Inj = string.Format("INJ: {0}", formulas.CalcINJRating(batter));
+                    newBatterCard.Inj = formulas.CalcINJRating(batter);
 
                     // BD Ratings
                     newBatterCard.BDRating = formulas.CalcClassicBDRating(batter, this.configSettings);
@@ -119,8 +124,9 @@ namespace RSFMEdia.StatisProCardFactory.Business
                     newBatterCard.Cht = formulas.CalculateCht(batter, placement.NumberHR, this.configSettings);
 
                     // H&R
-                    newBatterCard.HandR = string.Format("H&R: {0}", formulas.CalculateHitAndRunRating(placement.NumberK));
-
+                    //newBatterCard.HandR = string.Format("H&R: {0}", formulas.CalculateHitAndRunRating(placement.NumberK));
+                    newBatterCard.HandR = formulas.CalculateHitAndRunRating(placement.NumberK);
+                    
                     // count the batter card
                     process.NumberOfBatterCardsCreated += 1;
 

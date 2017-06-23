@@ -15,25 +15,29 @@ namespace RSFMEdia.StatisProCardFactory.Models
     [IgnoreFirst(1)]
     public class FieldingData
     {
-        public string Pos { get; set; }
-        public string Name { get; set; }
-        public decimal Age { get; set; }
-        public int G { get; set; }
-        public int GS { get; set; }
-        public int CG { get; set; }
-        public decimal Inn { get; set; }
-        public int Ch { get; set; }
-        public decimal PO { get; set; }
-        public int A { get; set; }
-        public int E { get; set; }
-        public int DP { get; set; }
-        public decimal FldPct { get; set; }
-        public int? TZ { get; set; }
-        public int? PB { get; set; }
-        public int? WP { get; set; }
-        public int? SB { get; set; }
-        public int? CS { get; set; }
-        public int? CSPct { get; set; }
-        public int? UZR { get; set; }
+        public string Pos;
+        public string Name;
+        public decimal Age;
+        public int G;
+        public int GS;
+        public int CG;
+        public decimal Inn;
+        public int Ch;
+        public int PO;
+        public int A;
+        public int E;
+        public int DP;
+        public decimal FldPct;
+        public int? TZ;
+        [FieldOptional]
+        public int? PB;
+        [FieldOptional]
+        public int? WP;
+        [FieldOptional]
+        public int? SB;
+        [FieldOptional]
+        public int? CS;
+        [FieldOptional]
+        public string CSPct;
     }
 }

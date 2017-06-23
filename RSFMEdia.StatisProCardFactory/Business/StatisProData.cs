@@ -76,19 +76,19 @@ namespace RSFMEdia.StatisProCardFactory.Business
             new SPNumber {RealNumber = 64, Number=74, Base8Number=88}
         };
 
-        public static List<OutfieldArm> OutfieldArmRatings = new List<OutfieldArm>()
+        public static List<OutfieldArmLookup> OutfieldArmRatings = new List<OutfieldArmLookup>()
         {
-            new OutfieldArm {Rating="T5", Description="Very strong arm"},
-            new OutfieldArm {Rating="T4", Description="Very good arm"},
-            new OutfieldArm {Rating="T3", Description="Average arm"},
-            new OutfieldArm {Rating="T2", Description="Poor arm"}
+            new OutfieldArmLookup {Assists = 1, T ="T5", Description="Very strong arm"},
+            new OutfieldArmLookup {T ="T4", Description="Very good arm"},
+            new OutfieldArmLookup {T = "T3", Description="Average arm"},
+            new OutfieldArmLookup {T ="T2", Description="Poor arm"}
         };
 
-        public static List<CatcherArm> CatcherArmRatings = new List<CatcherArm>()
+        public static List<CatcherArmLookup> CatcherArmRatings = new List<CatcherArmLookup>()
         {
-            new CatcherArm {Rating="TA", Description="Very strong arm"},
-            new CatcherArm {Rating="TB", Description="Average arm"},
-            new CatcherArm {Rating="TC", Description="Poor arm"}
+            new CatcherArmLookup {CaughtStealingPct = 1, T ="A", Description="Very strong arm"},
+            new CatcherArmLookup {CaughtStealingPct = 1, T = "B", Description="Average arm"},
+            new CatcherArmLookup {CaughtStealingPct = 0, T = "C", Description="Poor arm"}
         };
 
         public static List<SPRating> SPRatings = new List<SPRating>()
@@ -119,6 +119,62 @@ namespace RSFMEdia.StatisProCardFactory.Business
             new INJRating { GamesPlayed = 132, INJ = "6" },
             new INJRating { GamesPlayed = 81, INJ = "7" },
             new INJRating { GamesPlayed = 0, INJ = "8" },
+        };
+
+        public static List<ErrorRatingLookup> ErrorRatingsOF = new List<ErrorRatingLookup>()
+        {
+            new ErrorRatingLookup { FldPctHigh = .999M, FldPctLow = .990M, E = "1" },
+            new ErrorRatingLookup { FldPctHigh = .989M, FldPctLow = .980M, E = "2" },
+            new ErrorRatingLookup { FldPctHigh = .979M, FldPctLow = .970M, E = "3" },
+            new ErrorRatingLookup { FldPctHigh = .969M, FldPctLow = .960M, E = "4" },
+            new ErrorRatingLookup { FldPctHigh = .959M, FldPctLow = .950M, E = "5" },
+            new ErrorRatingLookup { FldPctHigh = .949M, FldPctLow = .940M, E = "6" },
+            new ErrorRatingLookup { FldPctHigh = .939M, FldPctLow = .930M, E = "7" },
+            new ErrorRatingLookup { FldPctHigh = .929M, FldPctLow = .920M, E = "8" },
+            new ErrorRatingLookup { FldPctHigh = .919M, FldPctLow = .910M, E = "9" },
+            new ErrorRatingLookup { FldPctHigh = .909M, FldPctLow = .000M, E = "10" }
+        };
+
+        public static List<ErrorRatingLookup> ErrorRatings3B = new List<ErrorRatingLookup>()
+        {
+            new ErrorRatingLookup { FldPctHigh = .999M, FldPctLow = .986M, E = "1" },
+            new ErrorRatingLookup { FldPctHigh = .985M, FldPctLow = .976M, E = "2" },
+            new ErrorRatingLookup { FldPctHigh = .975M, FldPctLow = .966M, E = "3" },
+            new ErrorRatingLookup { FldPctHigh = .965M, FldPctLow = .956M, E = "4" },
+            new ErrorRatingLookup { FldPctHigh = .955M, FldPctLow = .946M, E = "5" },
+            new ErrorRatingLookup { FldPctHigh = .945M, FldPctLow = .936M, E = "6" },
+            new ErrorRatingLookup { FldPctHigh = .935M, FldPctLow = .926M, E = "7" },
+            new ErrorRatingLookup { FldPctHigh = .925M, FldPctLow = .916M, E = "8" },
+            new ErrorRatingLookup { FldPctHigh = .915M, FldPctLow = .906M, E = "9" },
+            new ErrorRatingLookup { FldPctHigh = .905M, FldPctLow = .000M, E = "10" }
+        };
+
+        public static List<ErrorRatingLookup> ErrorRatings1B = new List<ErrorRatingLookup>()
+        {
+            new ErrorRatingLookup { FldPctHigh = .999M, FldPctLow = .995M, E = "1" },
+            new ErrorRatingLookup { FldPctHigh = .994M, FldPctLow = .990M, E = "2" },
+            new ErrorRatingLookup { FldPctHigh = .989M, FldPctLow = .985M, E = "3" },
+            new ErrorRatingLookup { FldPctHigh = .984M, FldPctLow = .980M, E = "4" },
+            new ErrorRatingLookup { FldPctHigh = .979M, FldPctLow = .975M, E = "5" },
+            new ErrorRatingLookup { FldPctHigh = .974M, FldPctLow = .970M, E = "6" },
+            new ErrorRatingLookup { FldPctHigh = .969M, FldPctLow = .965M, E = "7" },
+            new ErrorRatingLookup { FldPctHigh = .964M, FldPctLow = .960M, E = "8" },
+            new ErrorRatingLookup { FldPctHigh = .959M, FldPctLow = .955M, E = "9" },
+            new ErrorRatingLookup { FldPctHigh = .954M, FldPctLow = .000M, E = "10" }
+        };
+
+        public static List<ErrorRatingLookup> ErrorRatingsIF = new List<ErrorRatingLookup>()
+        {
+            new ErrorRatingLookup { FldPctHigh = .999M, FldPctLow = .985M, E = "1" },
+            new ErrorRatingLookup { FldPctHigh = .984M, FldPctLow = .975M, E = "2" },
+            new ErrorRatingLookup { FldPctHigh = .974M, FldPctLow = .965M, E = "3" },
+            new ErrorRatingLookup { FldPctHigh = .964M, FldPctLow = .955M, E = "4" },
+            new ErrorRatingLookup { FldPctHigh = .954M, FldPctLow = .945M, E = "5" },
+            new ErrorRatingLookup { FldPctHigh = .944M, FldPctLow = .935M, E = "6" },
+            new ErrorRatingLookup { FldPctHigh = .934M, FldPctLow = .925M, E = "7" },
+            new ErrorRatingLookup { FldPctHigh = .924M, FldPctLow = .915M, E = "8" },
+            new ErrorRatingLookup { FldPctHigh = .914M, FldPctLow = .905M, E = "9" },
+            new ErrorRatingLookup { FldPctHigh = .904M, FldPctLow = .000M, E = "10" }
         };
     }
 }

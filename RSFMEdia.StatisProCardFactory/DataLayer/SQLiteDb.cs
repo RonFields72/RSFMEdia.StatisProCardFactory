@@ -273,12 +273,12 @@ namespace RSFMEdia.StatisProCardFactory.DataLayer
                 string ofArmTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_OutfielderThrowRatingLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, Assists INT NOT NULL, Rating varchar(10) NOT NULL)";
                 var ofArmRows = ExecuteNonQuery(ofArmTableSQL);
 
-                // SIngles to Pitcher Cards
+                // Singles to Pitcher Cards
                 string pitcherSinglesTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_SinglesToPitcherLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, HitsPerInningLow DECIMAL NOT NULL, HitsPerInningHigh DECIMAL NOT NULL,  " +
                         "PB2to9 INT NOT NULL, PB2to8 INT NOT NULL, PB2to7 INT NOT NULL, PB2to6 INT NOT NULL, PB2to5 INT NOT NULL )";
                 var pitcherSinglesRows = ExecuteNonQuery(pitcherSinglesTableSQL);
 
-                // SIngles to Pitcher Cards
+                // Singles to Pitcher Cards
                 string pitcherBBandKTableSQL = "CREATE TABLE IF NOT EXISTS SPCF_BBAndKToPitcherLookup (ID INTEGER PRIMARY KEY AUTOINCREMENT, BBKPerInningLow DECIMAL NOT NULL, BBKPerInningHigh DECIMAL NOT NULL,  " +
                         "PB2to9 INT NOT NULL, PB2to8 INT NOT NULL, PB2to7 INT NOT NULL, PB2to6 INT NOT NULL, PB2to5 INT NOT NULL )";
                 var pitcherBBKRows = ExecuteNonQuery(pitcherBBandKTableSQL);

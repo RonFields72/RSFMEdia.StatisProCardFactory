@@ -879,5 +879,54 @@ namespace RSFMEdia.StatisProCardFactory.Business
             return doubleData;
         }
         #endregion
+
+        #region Fielding
+        public FieldingRatings CalcFielding(BattingData playerData, List<FieldingData> fielderData, CardProcessingConfiguration configSettings)
+        {
+            // init
+            FieldingRatings ratings = new FieldingRatings();
+            bool playsOF = false;
+            bool playsC = false;
+
+            // get player name
+            var parsedName = ParsePlayerName(playerData.Name);
+
+            // collect the fielder data and sort by most games played
+            var playerFielding = fielderData.Where(fd => fd.Name.Trim() == parsedName.Trim())
+                .OrderBy(fd => fd.G);
+
+            string positions = string.Empty;
+            foreach (var pos in playerFielding)
+            {
+                // check if an arm rating will be required
+                if (pos.Pos == SPCFConstants.POS_LEFT_FIELD || pos.Pos == SPCFConstants.POS_CENTER_FIELD || pos.Pos == SPCFConstants.POS_RIGHT_FIELD)
+                {
+                    playsOF = true;
+                }
+                if (pos.Pos == SPCFConstants.POS_CATCHER)
+                {
+                    playsC = true;
+                }
+
+                // determine fielding rating
+                // use TZ rating to determine error rating
+                if (configSettings.UseTZ)
+                {
+
+                }
+                else
+                {
+                    // use fielding percentage to get error rating (original Statis-Pro method)
+
+                }
+
+                //var positionGames = string.Format("{0}-{1}(E{2})", pos.Pos, pos.G.ToString(),  );
+
+                
+            }
+
+            return ratings;
+        }
+        #endregion
     }
 }

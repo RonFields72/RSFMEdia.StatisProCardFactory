@@ -6,6 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" runat="server">
     <div class="jumbotron">
+        <img alt="boxArt" src="images/statispro.jpg" />
         <h2>Statis-Pro Card Factory</h2>
         <span class="text-muted spcf-font-90">Complete the data inputs below and click Upload to process the player/pitcher/fielding data necessary to create cards.</span>
     </div>
@@ -90,11 +91,11 @@
             <asp:TextBox ID="tbMinimumIP" runat="server">Minimum # of IP</asp:TextBox>
             <asp:RangeValidator ID="RangeValidator1" runat="server" ControlToValidate="tbMinimumIP" MinimumValue="1" MaximumValue="999" Type="Integer" ErrorMessage="* valid values begin at 1" Font-Italic="true"></asp:RangeValidator>
             <br />
-            <asp:CheckBox ID="cbUseUBR" runat="server" />&nbsp;Use UBR (if provided)
+            <asp:CheckBox ID="cbUseUBR" runat="server" />&nbsp;Use UBR to determine OBR Rating (if provided)
             <br />
-            <asp:CheckBox ID="cbUseUZR" runat="server" />&nbsp;Use UZR (if provided)
+            <asp:CheckBox ID="cbUseUZR" runat="server" />&nbsp;Use UZR to determine fielding rating (if provided)
             <br />
-            <asp:CheckBox ID="cbUseTZ" runat="server" />&nbsp;Use TZ (if provided)
+            <asp:CheckBox ID="cbUseTZ" runat="server" />&nbsp;Use TZ to determine fielding rating (if provided)
         </div>
     </div>
     
@@ -113,18 +114,6 @@
                 ControlToValidate="fuBatting"> 
             </asp:RegularExpressionValidator>
             <br />
-            Upload Pitching Data File <span class="spcf-info-text">(.csv format)</span>:
-            <asp:FileUpload ID="fuPitching" runat="server" AllowMultiple="false" Width="400px" />
-            <asp:RegularExpressionValidator
-                ID="revPitching"
-                runat="server"
-                ErrorMessage="* file must must be a .csv"
-                Font-Italic="true"
-                CssClass="spcf-error-text"
-                ValidationExpression="^.+(.csv|.CSV)$"
-                ControlToValidate="fuPitching"> 
-            </asp:RegularExpressionValidator>
-            <br />
             Upload Fielding Data File <span class="spcf-info-text">(.csv format)</span>:
             <asp:FileUpload ID="fuFielding" runat="server" AllowMultiple="false" Width="400px" />
             <asp:RegularExpressionValidator
@@ -135,6 +124,18 @@
                 CssClass="spcf-error-text"
                 ValidationExpression="^.+(.csv|.CSV)$"
                 ControlToValidate="fuFielding"> 
+            </asp:RegularExpressionValidator>
+            <br />
+            Upload Pitching Data File <span class="spcf-info-text">(.csv format)</span>:
+            <asp:FileUpload ID="fuPitching" runat="server" AllowMultiple="false" Width="400px" />
+            <asp:RegularExpressionValidator
+                ID="revPitching"
+                runat="server"
+                ErrorMessage="* file must must be a .csv"
+                Font-Italic="true"
+                CssClass="spcf-error-text"
+                ValidationExpression="^.+(.csv|.CSV)$"
+                ControlToValidate="fuPitching"> 
             </asp:RegularExpressionValidator>
         </div>
     </div>
