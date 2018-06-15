@@ -103,12 +103,12 @@ namespace RSFMEdia.StatisProCardFactory.Business
             return position;
         }
 
-        public string FindPositionDescription(string positionAbbrev)
+        public string FindPositionDescription(string positionAbbreviation)
         {
             string position = string.Empty;
 
             // return position abbreviation based on scoring numeral
-            switch (positionAbbrev)
+            switch (positionAbbreviation)
             {
                 case "P":
                     position = "Pitcher";

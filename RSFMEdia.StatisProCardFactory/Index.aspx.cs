@@ -38,12 +38,13 @@ namespace RSFMEdia.StatisProCardFactory
         #region Private Methods
         private void LoadPage()
         {
+            // load dropdowns
             LoadTeams();
             LoadSeasons();
 
             // set config defaults
-            tbMinimumAB.Text = "1";
-            tbMinimumIP.Text = "1";
+            tbMinimumAB.Text = "25";
+            tbMinimumIP.Text = "10";
         }
 
         private void LoadSeasons()
